@@ -1,15 +1,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LightBulbsStore.Data;
+using LightBulbsStore.Infrastructure;
+using LightBulbsStore.Services;
+using LightBulbsStore.Services.Contracts;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
     // Add services to the container.
     var connectionString = builder.Configuration
         .GetConnectionString("DefaultConnection");
     
     builder.Services
-        .AddDbContext<BulbsStoreDbContext>(options => options.UseSqlite(connectionString));
+        .AddDbContext<BulbsStoreDbContext>(options => options.UseSqlServer(connectionString));
     
     builder.Services
         .AddDatabaseDeveloperPageExceptionFilter();
@@ -24,13 +28,18 @@ using LightBulbsStore.Data;
             options.Password.RequireUppercase = false;
         })
         .AddEntityFrameworkStores<BulbsStoreDbContext>();
-    
+
     builder.Services
-        .AddControllersWithViews();
+            .AddControllersWithViews();
+
+    builder.Services
+        .AddTransient<IProductService, ProductService>();
+    builder.Services.AddSingleton<ITextShortenerService, TextShortenerService>();
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
+    app.PrepareDatabase();
+// Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
         app.UseMigrationsEndPoint();

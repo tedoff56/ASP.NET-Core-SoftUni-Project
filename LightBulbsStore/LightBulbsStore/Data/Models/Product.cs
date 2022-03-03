@@ -1,28 +1,31 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LightBulbsStore.Data.Models;
 
 public class Product
 {
-    public Product()
-    {
-        this.Id = Guid.NewGuid().ToString();
-    }
-    
     [Key]
-    public string Id { get; init; }
+    public int Id { get; init; }
 
     [Required]
-    public string Name { get; init; }
+    [MaxLength(DataConstants.ProductNameMaxLength)]
+    public string Name { get; set; }
 
-    public decimal Price { get; init; }
+    public decimal Price { get; set; }
     
     [Required]
-    public string Description { get; init; }
+    [MaxLength(DataConstants.ProductDescriptionMaxLength)]
+    public string Description { get; set; }
     
     [Required]
-    [MaxLength(2048)]
-    public string ImageUrl { get; init; }
+    [MaxLength(DataConstants.UrlMaxLength)]
+    public string ImageUrl { get; set; }
+    
+    public int CategoryId { get; set; }
+    
+    [ForeignKey(nameof(CategoryId))]
+    public Category Category { get; init; }
 
 
 

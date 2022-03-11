@@ -1,5 +1,5 @@
-﻿using LightBulbsStore.Data;
-using LightBulbsStore.Data.Models;
+﻿using LightBulbsStore.Infrastructure.Data;
+using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LightBulbsStore.Infrastructure;

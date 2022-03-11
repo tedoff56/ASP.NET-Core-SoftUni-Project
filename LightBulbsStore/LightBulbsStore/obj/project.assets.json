@@ -764,6 +764,34 @@
             "rid": "win"
           }
         }
+      },
+      "LightBulbsStore.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "LightBulbsStore.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/LightBulbsStore.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LightBulbsStore.Core.dll": {}
+        }
+      },
+      "LightBulbsStore.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.2",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.2"
+        },
+        "compile": {
+          "bin/placeholder/LightBulbsStore.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LightBulbsStore.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -2253,10 +2281,21 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "LightBulbsStore.Core/1.0.0": {
+      "type": "project",
+      "path": "../LightBulbsStore.Core/LightBulbsStore.Core.csproj",
+      "msbuildProject": "../LightBulbsStore.Core/LightBulbsStore.Core.csproj"
+    },
+    "LightBulbsStore.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../LightBulbsStore.Infrastructure/LightBulbsStore.Infrastructure.csproj",
+      "msbuildProject": "../LightBulbsStore.Infrastructure/LightBulbsStore.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "LightBulbsStore.Core >= 1.0.0",
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 6.0.2",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.2",
       "Microsoft.AspNetCore.Identity.UI >= 6.0.2",
@@ -2295,7 +2334,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore.Core\\LightBulbsStore.Core.csproj": {
+              "projectPath": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore.Core\\LightBulbsStore.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

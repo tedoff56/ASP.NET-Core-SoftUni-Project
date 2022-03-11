@@ -1,6 +1,7 @@
-﻿using LightBulbsStore.Models;
+﻿using LightBulbsStore.Core.Models.Product;
+using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Models;
 using LightBulbsStore.Models.Product;
-using LightBulbsStore.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LightBulbsStore.Controllers;

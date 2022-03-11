@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore", "LightBulbsStore\LightBulbsStore.csproj", "{843D4C18-9204-4D05-B533-31C7BB13C395}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore.Core", "LightBulbsStore.Core\LightBulbsStore.Core.csproj", "{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore.Infrastructure", "LightBulbsStore.Infrastructure\LightBulbsStore.Infrastructure.csproj", "{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{843D4C18-9204-4D05-B533-31C7BB13C395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{843D4C18-9204-4D05-B533-31C7BB13C395}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{843D4C18-9204-4D05-B533-31C7BB13C395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

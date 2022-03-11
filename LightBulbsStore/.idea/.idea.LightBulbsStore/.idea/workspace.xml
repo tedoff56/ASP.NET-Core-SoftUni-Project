@@ -23,7 +23,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/999cdaadc75536d58983a9f4e0db6aa26367941d1bb72b22102b2ad3afcc/UrlAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LightBulbsStore/Data/BulbsStoreDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LightBulbsStore.Infrastructure/Data/BulbsStoreDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6a4fb7ae62557b1ddbba529662b57eb8a9f3208f98f0edd87517fe9cb4d6a/AuthAppBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -84,7 +84,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1646295466512</updated>
-      <workItem from="1646295488523" duration="19710000" />
+      <workItem from="1646295488523" duration="20507000" />
+      <workItem from="1647007941068" duration="1810000" />
     </task>
     <servers />
   </component>

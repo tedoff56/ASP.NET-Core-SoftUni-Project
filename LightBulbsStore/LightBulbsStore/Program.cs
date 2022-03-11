@@ -1,10 +1,9 @@
+using LightBulbsStore.Core.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LightBulbsStore.Data;
 using LightBulbsStore.Infrastructure;
+using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Services;
-using LightBulbsStore.Services.Contracts;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

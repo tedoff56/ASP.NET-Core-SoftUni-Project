@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using LightBulbsStore.Data.Models;
 
 namespace LightBulbsStore.Infrastructure.Data.Models;
 
@@ -10,11 +9,15 @@ public class Category
         this.Products = new List<Product>();
     }
     
-    public int Id { get; init; }
+    [Key]
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(DataConstants.CategoryNameMaxLength)]
     public string Name { get; set; }
-
-    public ICollection<Product> Products { get; init; }
+    
+    [MaxLength(DataConstants.CategoryDescriptionMaxLength)]
+    public string? Description { get; set; }
+    
+    public ICollection<Product> Products { get; set; }
 }

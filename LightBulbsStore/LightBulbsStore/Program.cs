@@ -63,5 +63,5 @@ var builder = WebApplication.CreateBuilder(args);
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             ep.MapRazorPages();
         });
-    
+app.UseAuthentication();    
     app.Run();

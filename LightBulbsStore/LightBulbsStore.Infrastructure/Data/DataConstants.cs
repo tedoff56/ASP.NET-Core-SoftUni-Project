@@ -6,11 +6,11 @@ public class DataConstants
     public const int UrlMaxLength = 2048;
     
     //Customer constants
-    public const int CustomerEmailAddressMaxLength = 320;
     public const int CustomerNameMaxLength = 64;
     public const int CustomerPhoneNumberMaxLength = 16;
-    public const int CustomerCityNameMaxLength = 30;
-    public const int CustomerStreetAddressMaxLength = 95;
+    public const int CustomerCityNameMaxLength = 189;
+    public const int CustomerAddressMaxLength = 254;
+    public const int CustomerZipCodeMaxLength = 4;
 
     //Product constants
     public const int ProductNameMinLength = 5;
@@ -20,5 +20,6 @@ public class DataConstants
 
     //Category constants
     public const int CategoryNameMaxLength = 30;
+    public const int CategoryDescriptionMaxLength = 100;
 
 }

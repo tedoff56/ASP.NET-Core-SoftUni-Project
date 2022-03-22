@@ -33,12 +33,6 @@ public class Customer
 
     [MaxLength(DataConstants.CustomerZipCodeMaxLength)]
     public string? ZipCode { get; set; }
-    
-    public Guid UserId { get; set; }
-    
-    [Required]
-    [ForeignKey(nameof(UserId))]
-    public User User { get; set; }
 
     public ICollection<Order> Order { get; set; }
     

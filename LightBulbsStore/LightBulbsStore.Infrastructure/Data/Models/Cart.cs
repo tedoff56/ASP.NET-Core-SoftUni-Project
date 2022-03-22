@@ -9,7 +9,7 @@ public class Cart
     {
         this.Id = Guid.NewGuid();
 
-        this.Products = new List<CartProducts>();
+        this.Products = new List<CartProduct>();
     }
     
     [Key]
@@ -21,5 +21,5 @@ public class Cart
     [ForeignKey(nameof(CustomerId))]
     public Customer Customer { get; set; }
     
-    public ICollection<CartProducts> Products { get; set; }
+    public ICollection<CartProduct> Products { get; set; }
 }

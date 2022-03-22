@@ -1,67 +1,71 @@
-using LightBulbsStore.Core.Services.Contracts;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using LightBulbsStore.Infrastructure;
 using LightBulbsStore.Infrastructure.Data;
-using LightBulbsStore.Services;
+using LightBulbsStore.Infrastructure.Data.Models;
+using LightBulbsStore.Extensions;
+using LightBulbsStore.ModelBinders;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("BulbsStoreDbContextConnection"); 
 
-    // Add services to the container.
-    var connectionString = builder.Configuration
-        .GetConnectionString("DefaultConnection");
-    
-    builder.Services
-        .AddDbContext<BulbsStoreDbContext>(options => options.UseSqlServer(connectionString));
-    
-    builder.Services
-        .AddDatabaseDeveloperPageExceptionFilter();
+// Add services to the container.
+builder.Services.AddApplicationDbContexts(builder.Configuration);
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
 
-    builder.Services
-        .AddDefaultIdentity<IdentityUser>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = false;
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = false;
-        })
-        .AddEntityFrameworkStores<BulbsStoreDbContext>();
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<BulbsStoreDbContext>();
 
-    builder.Services
-            .AddControllersWithViews();
+//builder.Services.AddAuthentication()
+//    .AddFacebook(options =>
+//    {
+//        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+//        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
+//    });
 
-    builder.Services
-        .AddTransient<IProductService, ProductService>();
-    builder.Services.AddSingleton<ITextShortenerService, TextShortenerService>();
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.ModelBinderProviders.Insert(1, new DoubleModelBinderProvider());
+    });
 
-    var app = builder.Build();
+builder.Services.AddApplicationServices();
 
-    app.PrepareDatabase();
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseMigrationsEndPoint();
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-    app
-        .UseHttpsRedirection()
-        .UseStaticFiles()
-        .UseRouting()
-        .UseAuthentication()
-        .UseAuthorization()
-        .UseEndpoints(ep =>
-        {
-            ep.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            ep.MapRazorPages();
-        });
-app.UseAuthentication();    
-    app.Run();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "Area",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+
+app.Run();

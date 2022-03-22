@@ -1,15 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\LightBulbsStore",
-    "\\LightBulbsStore.Infrastructure",
-    "\\LightBulbsStore.Infrastructure\\Data",
-    "\\LightBulbsStore.Infrastructure\\Data\\Models",
-    "\\LightBulbsStore\\Areas",
-    "\\LightBulbsStore\\Areas\\Identity",
-    "\\LightBulbsStore\\Areas\\Identity\\Pages",
-    "\\LightBulbsStore\\Areas\\Identity\\Pages\\Account"
+    ""
   ],
-  "SelectedNode": "\\LightBulbsStore.Infrastructure\\Data\\Models\\Product.cs",
+  "SelectedNode": "\\LightBulbsStore.sln",
   "PreviewInSolutionExplorer": false
 }

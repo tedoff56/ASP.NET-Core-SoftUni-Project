@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LightBulbsStore.Infrastructure.Data;
 
-public class BulbsStoreDbContext : IdentityDbContext
+public class BulbsStoreDbContext : IdentityDbContext<User>
 {
     public BulbsStoreDbContext(DbContextOptions<BulbsStoreDbContext> options)
         : base(options)
@@ -20,15 +20,13 @@ public class BulbsStoreDbContext : IdentityDbContext
 
     public DbSet<Cart> Carts { get; init; }
 
-    public DbSet<CartProducts> CartProducts { get; init; }
+    public DbSet<CartProduct> CartProducts { get; init; }
 
     public DbSet<Order> Orders { get; init; }
 
     public DbSet<OrderProduct> OrderProducts { get; init; }
 
-    public DbSet<User> Users { get; init; }
-
-    public DbSet<ProductStock> ProductStock { get; set; }
+    public DbSet<Stock> ProductsStock { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -48,7 +46,7 @@ public class BulbsStoreDbContext : IdentityDbContext
             });
         
         builder
-            .Entity<CartProducts>()
+            .Entity<CartProduct>()
             .HasKey(cp => new
             {
                 cp.CartId, 

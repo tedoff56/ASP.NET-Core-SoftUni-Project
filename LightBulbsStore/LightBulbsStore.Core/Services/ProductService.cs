@@ -1,6 +1,5 @@
 ﻿using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
-using LightBulbsStore.Data;
 using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Models.Product;

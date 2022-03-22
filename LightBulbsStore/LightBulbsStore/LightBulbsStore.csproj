@@ -24,4 +24,8 @@
       <ProjectReference Include="..\LightBulbsStore.Core\LightBulbsStore.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Areas\Admin\Views\" />
+    </ItemGroup>
+
 </Project>

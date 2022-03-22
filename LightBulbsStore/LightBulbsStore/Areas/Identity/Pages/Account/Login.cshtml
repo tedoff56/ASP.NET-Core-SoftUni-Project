@@ -98,14 +98,14 @@
     <div class="mb-3">
         <div class="mb-2 w-100">
             <label asp-for="Input.Password" class="text-muted" for="password">Парола</label>
-            <a id="forgot-password" asp-page="./ForgotPassword" class="float-end">
-                Forgot password?
-            </a>
         </div>
         <input asp-for="Input.Password" id="password" type="password" class="form-control" autocomplete="current-password" aria-required="true" required>
         <div class="invalid-feedback">
             Password is required
         </div>
+           <a id="forgot-password" asp-page="./ForgotPassword" class="float-end">
+                Forgot password?
+           </a>
     </div>
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

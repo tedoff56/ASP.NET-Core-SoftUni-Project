@@ -3190,6 +3190,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.2",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.2",
+          "Microsoft.AspNetCore.Identity.UI": "6.0.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.2"
         },
         "compile": {

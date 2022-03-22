@@ -9,8 +9,8 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
     public BulbsStoreDbContext(DbContextOptions<BulbsStoreDbContext> options)
         : base(options)
     {
+
     }
-    
 
     public DbSet<Customer> Customers { get; init; }
     

@@ -1,4 +1,4 @@
-﻿namespace LightBulbsStore.Models.Product;
+﻿namespace LightBulbsStore.Core.Models.Product;
 
 public class ProductViewModel
 {

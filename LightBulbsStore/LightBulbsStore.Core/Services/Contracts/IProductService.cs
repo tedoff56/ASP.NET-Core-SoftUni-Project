@@ -1,5 +1,5 @@
-﻿using LightBulbsStore.Core.Models.Product;
-using LightBulbsStore.Models.Product;
+﻿using LightBulbsStore.Core.Models.Category;
+using LightBulbsStore.Core.Models.Product;
 
 namespace LightBulbsStore.Core.Services.Contracts;
 

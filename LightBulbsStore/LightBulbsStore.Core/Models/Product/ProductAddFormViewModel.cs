@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using LightBulbsStore.Core.Models.Category;
 using LightBulbsStore.Infrastructure.Data;
 
 namespace LightBulbsStore.Core.Models.Product;

@@ -1,24 +1,29 @@
 ﻿using System.Diagnostics;
 using LightBulbsStore.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using LightBulbsStore.Models;
+using LightBulbsStore.Core.Services.Contracts;
 
 namespace LightBulbsStore.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly ICategoryService categoryService;
+
+    public HomeController(
+        ILogger<HomeController> _logger,
+        ICategoryService _categoryService)
     {
-        _logger = logger;
+        logger = _logger;
+        categoryService = _categoryService;
     }
 
     public IActionResult Index()
     {
         return View();
     }
-    
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

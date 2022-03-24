@@ -3,28 +3,21 @@ using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Models;
+using LightBulbsStore.Infrastructure.Data.Repositories;
+using System.Runtime.CompilerServices;
 
 namespace LightBulbsStore.Services;
 
 public class ProductService : IProductService
 {
-    private readonly BulbsStoreDbContext dbContext;
-    
-    public ProductService(BulbsStoreDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-    
-    IEnumerable<CategoryViewModel> IProductService.GetCategories()
-        => dbContext.Categories
-            .Select(c => new CategoryViewModel()
-            {
-                Id = c.Id,
-                Name = c.Name
-            })
-            .ToList();
+    private readonly IBulbsStoreDbRepository repo;
 
-    public void AddProduct(ProductAddFormViewModel model)
+    public ProductService(IBulbsStoreDbRepository _repo)
+    {
+        repo = _repo;
+    }
+
+    public async Task AddProduct(ProductAddFormViewModel model)
     {
         var product = new Product()
         {
@@ -35,20 +28,46 @@ public class ProductService : IProductService
             CategoryId = model.CategoryId
         };
 
-        dbContext.Products.Add(product);
-        dbContext.SaveChanges();
+        await repo.AddAsync(product);
+        await repo.SaveChangesAsync();
     }
 
     public IEnumerable<ProductViewModel> GetAllProducts()
-        => dbContext.Products
+        => repo.All<Product>()
+            .Select(p => new ProductViewModel()
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Description = p.Description,
+                ImageUrl = p.ImageUrl,
+                Category = new CategoryViewModel
+                {
+                    Id = p.Category.Id,
+                    Name = p.Category.Name,
+                    Description = p.Description,
+                }
+
+            })
+            .ToList();
+
+    public IEnumerable<ProductViewModel> GetAllProducts(int categoryId)
+    {
+        return repo.All<Product>()
+            .Where(p => p.CategoryId == categoryId)
             .Select(p => new ProductViewModel()
             {
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
                 ImageUrl = p.ImageUrl,
-                CategoryName = p.Category.Name
-                
+                Category = new CategoryViewModel
+                {
+                    Id = categoryId,
+                    Name = p.Category.Name,
+                    Description = p.Description,
+                }
             })
             .ToList();
+    }
 }

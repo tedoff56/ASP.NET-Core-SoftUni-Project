@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RHhSjMvFEzcQSZM62He3NxzBSuMoSEGLu+uxqJUtMwU=",
+  "Hash": "GUV4fklRGVtkOf50jhySMwDPYROuLmtfVpCpVHq/Gxs=",
   "Source": "LightBulbsStore",
   "BasePath": "_content/LightBulbsStore",
   "Mode": "Default",
@@ -2174,6 +2174,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\logo.png"
+    },
+    {
+      "Identity": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\img\\logo2.png",
+      "SourceId": "LightBulbsStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\",
+      "BasePath": "_content/LightBulbsStore",
+      "RelativePath": "img/logo2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\logo2.png"
     },
     {
       "Identity": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\img\\payment.png",

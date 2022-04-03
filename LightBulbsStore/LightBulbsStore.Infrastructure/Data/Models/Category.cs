@@ -6,11 +6,12 @@ public class Category
 {
     public Category()
     {
-        this.Products = new List<Product>();
+        Id = Guid.NewGuid().ToString();
+        Products = new List<Product>();
     }
     
     [Key]
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     [Required]
     [MaxLength(DataConstants.CategoryNameMaxLength)]

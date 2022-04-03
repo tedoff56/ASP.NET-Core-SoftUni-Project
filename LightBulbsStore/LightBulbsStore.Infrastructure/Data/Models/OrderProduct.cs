@@ -4,12 +4,12 @@ namespace LightBulbsStore.Infrastructure.Data.Models;
 
 public class OrderProduct
 {
-    public Guid OrderId { get; set; }
+    public string OrderId { get; set; }
     
     [ForeignKey(nameof(OrderId))]
     public Order Order { get; set; }
 
-    public Guid ProductId { get; set; }
+    public string ProductId { get; set; }
     
     [ForeignKey(nameof(ProductId))]
     public Product Product { get; set; }

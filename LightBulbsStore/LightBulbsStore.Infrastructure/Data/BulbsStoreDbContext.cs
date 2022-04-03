@@ -43,14 +43,6 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
             {
                 op.OrderId, 
                 op.ProductId
-            });
-        
-        builder
-            .Entity<CartProduct>()
-            .HasKey(cp => new
-            {
-                cp.CartId, 
-                cp.ProductId
-            });
+            });       
     }
 }

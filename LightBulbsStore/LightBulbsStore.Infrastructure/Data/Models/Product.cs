@@ -7,11 +7,11 @@ public class Product
 {
     public Product()
     {
-        this.Id = Guid.NewGuid();
+        Id = Guid.NewGuid().ToString();
     }
     
     [Key]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     [Required]
     [MaxLength(DataConstants.ProductNameMaxLength)]
@@ -27,7 +27,7 @@ public class Product
     [MaxLength(DataConstants.UrlMaxLength)]
     public string ImageUrl { get; set; }
     
-    public int CategoryId { get; set; }
+    public string CategoryId { get; set; }
     
     [ForeignKey(nameof(CategoryId))]
     public Category Category { get; set; }

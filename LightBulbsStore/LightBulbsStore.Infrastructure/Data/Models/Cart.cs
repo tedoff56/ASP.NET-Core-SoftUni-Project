@@ -7,19 +7,18 @@ public class Cart
 {
     public Cart()
     {
-        this.Id = Guid.NewGuid();
+        Id = Guid.NewGuid().ToString();
 
-        this.Products = new List<CartProduct>();
+        CartProducts = new List<CartProduct>();
     }
-    
+
     [Key]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
+    public string CustomerId { get; set; }
 
-    public Guid CustomerId { get; set; }
-    
     [ForeignKey(nameof(CustomerId))]
     public Customer Customer { get; set; }
-    
-    public ICollection<CartProduct> Products { get; set; }
+
+    public ICollection<CartProduct> CartProducts { get; set; }
 }

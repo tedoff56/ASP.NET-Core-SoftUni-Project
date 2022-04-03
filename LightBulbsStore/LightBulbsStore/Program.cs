@@ -22,6 +22,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BulbsStoreDbContext>();
 
+
 //builder.Services.AddAuthentication()
 //    .AddFacebook(options =>
 //    {
@@ -39,6 +40,8 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
+
+app.PrepareDatabase();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

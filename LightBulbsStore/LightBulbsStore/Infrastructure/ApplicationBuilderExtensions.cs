@@ -1,6 +1,7 @@
 ﻿using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LightBulbsStore.Infrastructure;
 
@@ -12,36 +13,39 @@ public static class ApplicationBuilderExtensions
         using var scopedServices = applicationBuilder.ApplicationServices.CreateScope();
 
         var data = scopedServices.ServiceProvider.GetService<BulbsStoreDbContext>();
-        
+
         data.Database.Migrate();
 
         SeedCategories(data);
-        
+
         return applicationBuilder;
     }
 
     private static void SeedCategories(BulbsStoreDbContext dbContext)
     {
 
-        if(!dbContext.Categories.Any())
+        if (dbContext.Categories.Any())
         {
             return;
         }
 
-        dbContext.Categories.AddRange(new[]
+        var categories = new List<Category>()
         {
-            new Category(){Name = "LED КРУШКИ"},
-            new Category(){Name = "LED ПУРИ"},
-            new Category(){Name = "LED ПАНА"},
-            new Category(){Name = "LED ПАНЕЛИ"},
-            new Category(){Name = "LED ПЛАФОНИ"},
-            new Category(){Name = "LED ПРОЖЕКТОРИ"},
-            new Category(){Name = "LED НЕОНИ"},
-            new Category(){Name = "LED ЛУНИЧКИ"},
-            new Category(){Name = "LED ЛЕНТИ"},
-            new Category(){Name = "LED УЛИЧНО ОСВЕТЛЕНИЕ"},
-            new Category(){Name = "ЗАХРАНВАНИЯ"},
-            new Category(){Name = "КОНТРОЛЕРИ"}
-        });
+            new (){Name = "LED КРУШКИ"},
+            new (){Name = "LED ПУРИ"},
+            new (){Name = "LED ПАНА"},
+            new (){Name = "LED ПАНЕЛИ"},
+            new (){Name = "LED ПЛАФОНИ"},
+            new (){Name = "LED ПРОЖЕКТОРИ"},
+            new (){Name = "LED НЕОНИ"},
+            new (){Name = "LED ЛУНИЧКИ"},
+            new (){Name = "LED ЛЕНТИ"},
+            new (){Name = "LED УЛИЧНО ОСВЕТЛЕНИЕ"},
+            new (){Name = "ЗАХРАНВАНИЯ"},
+            new (){Name = "КОНТРОЛЕРИ"}
+        };
+
+        dbContext.AddRange(categories);
+        dbContext.SaveChanges();
     }
 }

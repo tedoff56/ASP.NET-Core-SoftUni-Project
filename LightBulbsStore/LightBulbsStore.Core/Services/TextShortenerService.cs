@@ -1,18 +1,28 @@
 ﻿using LightBulbsStore.Core.Services.Contracts;
+using System.Text;
 
 namespace LightBulbsStore.Services;
 
 public class TextShortenerService : ITextShortenerService
 {
-    public string Transform(string text, int length) 
+    public string Transform(string text, int length)
     {
-        var result = text;
+        var sb = new StringBuilder();
 
-        if(length < text.Length)
+        for (int i = 0; i < text.Length; i++)
         {
-            result = text.Substring(0, length) + "...";
+            if(i == length)
+            {
+                return sb.ToString().Substring(0, length) + "...";
+            }
+            sb.Append(text[i]);
+
+            if (i % 34 == 0)
+            {
+                sb.AppendLine();
+            }
         }
 
-        return result;
+        return sb.ToString();
     }
 }

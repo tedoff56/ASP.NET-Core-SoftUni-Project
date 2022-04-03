@@ -8,20 +8,21 @@ public class Order
 {
     public Order()
     {
-        this.Id = Guid.NewGuid();
+        Id = Guid.NewGuid().ToString();
 
-        this.Products = new List<OrderProduct>();
+        Products = new List<OrderProduct>();
 
-        this.Status = OrderStatus.BeingProcessed;
+        Status = OrderStatus.BeingProcessed;
     }
     
-    public Guid Id { get; set; }
+    [Key]
+    public string Id { get; set; }
 
     public decimal TotalCost { get; set; }
 
     public OrderStatus Status { get; set; }
 
-    public Guid CustomerId { get; set; }
+    public string CustomerId { get; set; }
     
     [Required]
     [ForeignKey(nameof(CustomerId))]

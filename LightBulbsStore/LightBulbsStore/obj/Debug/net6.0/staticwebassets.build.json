@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "B1BYdfNnLnbkravfmpB5GXdLvmLR/Gup/lBX11/0Ozg=",
+  "Hash": "EiTxjyRjREMwGuZ3NPEeMpAdDpI+6ZnGPxnaBvDjaQM=",
   "Source": "LightBulbsStore",
   "BasePath": "_content/LightBulbsStore",
   "Mode": "Default",
@@ -1188,6 +1188,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\style.css.map"
+    },
+    {
+      "Identity": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\css\\ViewProduct.css",
+      "SourceId": "LightBulbsStore",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\",
+      "BasePath": "_content/LightBulbsStore",
+      "RelativePath": "css/ViewProduct.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\ViewProduct.css"
     },
     {
       "Identity": "C:\\Users\\tedof\\Documents\\GitHub\\ASP.NET-Core-SoftUni-Project\\LightBulbsStore\\LightBulbsStore\\wwwroot\\favicon.ico",

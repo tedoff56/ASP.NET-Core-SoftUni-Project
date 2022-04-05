@@ -38,7 +38,7 @@ public class ProductService : IProductService
         await repo.SaveChangesAsync();
     }
 
-    public async Task<ProductEditFormViewModel> GetProduct(string productId)
+    public async Task<ProductEditFormViewModel> GetProductForEdit(string productId)
     {
         var product = await repo.GetByIdAsync<Product>(productId);
 
@@ -104,6 +104,7 @@ public class ProductService : IProductService
             .Where(p => p.CategoryId == categoryId)
             .Select(p => new ProductViewModel()
             {
+                Id=p.Id,
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
@@ -116,5 +117,32 @@ public class ProductService : IProductService
                 }
             })
             .ToList();
+    }
+
+    public async Task<ProductViewModel> GetProduct(string productId)
+    {
+        var product = await repo.GetByIdAsync<Product>(productId);
+
+        if(product is null)
+        {
+            return null;
+        }
+
+        var category = await repo.GetByIdAsync<Category>(product.CategoryId);
+
+        return new ProductViewModel()
+        {
+            Id=product.Id,
+            Name = product.Name,
+            Category = new CategoryViewModel()
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description
+            },
+            Price = product.Price,
+            ImageUrl = product.ImageUrl,
+            Description = product.Description
+        };
     }
 }

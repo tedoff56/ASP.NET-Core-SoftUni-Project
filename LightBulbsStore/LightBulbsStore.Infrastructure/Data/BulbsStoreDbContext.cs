@@ -25,8 +25,6 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
     public DbSet<Order> Orders { get; init; }
 
     public DbSet<OrderProduct> OrderProducts { get; init; }
-
-    public DbSet<Stock> ProductsStock { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -35,14 +33,6 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
         builder
             .Entity<Category>()
             .HasIndex(c => c.Name)
-            .IsUnique();
-
-        builder
-            .Entity<OrderProduct>()
-            .HasKey(op => new
-            {
-                op.OrderId, 
-                op.ProductId
-            });       
+            .IsUnique();    
     }
 }

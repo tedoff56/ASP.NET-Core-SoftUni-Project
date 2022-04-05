@@ -11,7 +11,9 @@ public interface IProductService
 
     IEnumerable<ProductViewModel> GetAllProducts(string id);
 
-    Task<ProductEditFormViewModel> GetProduct(string productId);
+    Task<ProductEditFormViewModel> GetProductForEdit(string productId);
 
     Task<bool> EditProduct(ProductEditFormViewModel model);
+
+    Task<ProductViewModel> GetProduct(string productId);
 }

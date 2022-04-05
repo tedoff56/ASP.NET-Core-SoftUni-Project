@@ -40,10 +40,10 @@ public class Customer
     [ForeignKey(nameof(UserId))]
     public User User { get; set; }
 
-    public string CartId { get; set; }
+    //public string CartId { get; set; }
 
-    [ForeignKey(nameof(CartId))]
-    public Cart Cart { get; set; }
+    //[ForeignKey(nameof(CartId))]
+    //public Cart Cart { get; set; }
 
     public ICollection<Order> Orders { get; set; }
     

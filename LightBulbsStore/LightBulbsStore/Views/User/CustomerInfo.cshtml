@@ -1,0 +1,116 @@
+﻿@model CustomerInfoViewModel
+
+@{
+    ViewData["Title"] = "Данни за доставка";
+}
+
+<div class="container">
+    <div class="d-flex p-2">
+        <h3>Настройки на акаунт</h3>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-9">
+            <div class="offset-md-2 col-md-8 col-sm-12">
+                <div class="container rounded bg-white mb-2">
+                    <div class="row">
+                        <div class="p-3 py-1">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-right">@ViewData["Title"]</h4>
+                            </div>
+                            <form method="post">
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label asp-for="FirstName" class="labels"></label>
+                                        <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName" placeholder="Пример: Младен">
+                                        <span asp-validation-for="FirstName" class="small text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="LastName" class="labels"></label>
+                                        <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName" placeholder="Пример: Младенов">
+                                        <span asp-validation-for="LastName" class="small text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label asp-for="PhoneNumber" class="labels">Мобилен телефон</label>
+                                        <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="08xxxxxxxx" value="@Model.PhoneNumber">
+                                        <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label asp-for="Address" class="labels"></label>
+                                        <input asp-for="Address" type="text" class="form-control" value="@Model.Address">
+                                        <span asp-validation-for="Address" class="small text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="City" class="labels">Град</label>
+                                        <input asp-for="City" type="text" class="form-control" placeholder="София" value="@Model.City">
+                                        <span asp-validation-for="City" class="small text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="ZipCode" class="labels">Пощенски код</label>
+                                        <input asp-for="ZipCode" type="text" class="form-control" value="@Model.ZipCode" placeholder="Пример: 1000">
+                                        <span asp-validation-for="ZipCode" class="small text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <button class="btn btn-primary profile-button" type="submit">Запази</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="offset-md-2 col-md-8 col-sm-12">
+    <div class="container rounded bg-white mb-2">
+    <div class="row">
+    <div class="p-3 py-1">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-right">@ViewData["Title"]</h4>
+    </div>
+    <form method="post">
+    <div class="row mt-2">
+    <div class="col-md-6">
+    <label asp-for="FirstName" class="labels"></label>
+    <input asp-for="FirstName" type="text" class="form-control" value="@Model.FirstName" placeholder="Пример: Младен">
+    </div>
+    <div class="col-md-6">
+    <label asp-for="LastName" class="labels"></label>
+    <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName" placeholder="Пример: Младенов" >
+    </div>
+    </div>
+    <div class="row mt-3">
+    <div class="col-md-12">
+    <label asp-for="PhoneNumber" class="labels">Мобилен телефон</label>
+    <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="08xxxxxxxx" value="@Model.PhoneNumber">
+    </div>
+    <div class="col-md-12">
+    <label asp-for="Address" class="labels">Адрес</label>
+    <input asp-for="Address" type="text" class="form-control" value="@Model.Address">
+    </div>
+    </div>
+    <div class="row mt-3">
+    <div class="col-md-6">
+    <label asp-for="City" class="labels">Град</label>
+    <input asp-for="City" type="text" class="form-control" placeholder="София" value="@Model.City">
+    </div>
+    <div class="col-md-6">
+    <label asp-for="ZipCode" class="labels">Пощенски код</label>
+    <input asp-for="ZipCode" type="text" class="form-control" value="@Model.ZipCode" placeholder="Пример: 1000">
+    </div>
+    </div>
+    <div class="mt-4 text-center">
+    <button class="btn btn-primary profile-button" type="submit">Запази</button>
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    </div>*@

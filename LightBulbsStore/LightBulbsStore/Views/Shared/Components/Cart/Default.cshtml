@@ -1,0 +1,6 @@
+﻿@model LayoutViewModel;
+
+<a asp-area="/" asp-controller="Cart" asp-action="Index">
+    <img src="~/img/icon/cart.png" alt=""> <span>@Model.CartProductsCount</span>
+</a>
+<div class="price">@Model.CartTotalPrice лв.</div>

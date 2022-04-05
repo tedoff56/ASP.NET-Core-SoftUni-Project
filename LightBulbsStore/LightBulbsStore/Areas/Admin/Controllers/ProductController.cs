@@ -1,0 +1,79 @@
+﻿
+using LightBulbsStore.Controllers;
+using LightBulbsStore.Core.Models.Product;
+using LightBulbsStore.Core.Services.Contracts;
+using Microsoft.AspNetCore.Mvc;
+namespace LightBulbsStore.Areas.Admin.Controllers;
+
+public class ProductController : BaseController
+{
+    private readonly IProductService productService;
+
+    private readonly ICategoryService categoryService;
+
+    public ProductController(
+        IProductService _productService,
+        ICategoryService _categoryService)
+    {
+        productService = _productService;
+        categoryService = _categoryService;
+    }
+
+    public IActionResult Add()
+    {
+        return View(new ProductEditFormViewModel()
+        {
+            Categories = categoryService.GetAllCategories()
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add(ProductEditFormViewModel product)
+    {
+        if (!categoryService.GetAllCategories().Any(c => c.Id == product.CategoryId))
+        {
+            ModelState.AddModelError(nameof(product.CategoryId), "Invalid category!");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            product.Categories = categoryService.GetAllCategories();
+            return this.View(product);
+        }
+
+        await productService.AddProduct(product);
+
+        return Redirect("~/Product/");
+    }
+
+    public async Task<IActionResult> Edit(string productId)
+    {
+        var product = await productService.GetProductForEdit(productId);
+
+        return View(product);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(string productId, ProductEditFormViewModel productModel)
+    {
+
+        productModel.Categories = categoryService.GetAllCategories();
+        productModel.Id = productId;
+
+        if (!ModelState.IsValid)
+        {
+            return View(productModel);
+        }
+        var editedSuccessfully = await productService.EditProduct(productModel);
+
+        if (!editedSuccessfully)
+        {
+            return View(productModel);
+        }
+
+        return RedirectToAction("Info", "Product", new { area = "/", @productId = productId });
+    }
+
+
+
+}

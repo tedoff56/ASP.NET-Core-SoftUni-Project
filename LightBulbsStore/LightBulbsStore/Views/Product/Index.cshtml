@@ -1,0 +1,45 @@
+﻿@using LightBulbsStore.Services
+@model IEnumerable<ProductViewModel>
+@inject TextShortenerService shortenerService
+
+<div class="container">
+    <div class="row bootstrap snippets bootdeys" id="store-list">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-6 col-xs-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <a href="#"><img src="@product.ImageUrl" class="img-responsive"></a>
+                            </div>
+                            <div class="col-sm-7">
+                                <h4 class="title-store">
+                                    <strong><a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id">@product.Name</a></strong>
+                                </h4>
+                                <hr>
+                                <p>@shortenerService.Transform(product.Description, 200)</p>
+                                <hr>
+                                <p>Категория: <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@product.Category.Id">@product.Category.Name</a> </p>
+                                <a href="#" class="btn btn-default" disabled="" data-original-title="" title="">@product.Price лв.</a>
+
+                                <p>
+                                    <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@product.Id" class="btn btn-warning pull-right" data-original-title="" title="">
+                                        <i class="fa-solid fa-cart-arrow-down"></i> Добави
+                                    </a>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-info pull-right" data-original-title="" title="">
+
+                                            <i class="fa-solid fa-pen-to-square"></i> Промяна
+                                        </a>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

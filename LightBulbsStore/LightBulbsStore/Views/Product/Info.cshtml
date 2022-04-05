@@ -1,0 +1,64 @@
+﻿@using LightBulbsStore.Services
+@model ProductViewModel
+@inject TextShortenerService shortenerService
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<link rel="stylesheet" href="~/css/ViewProduct.css" type="text/css">
+<div class="container">
+    <div class="border p-3 bg-white">
+        <div class="row hedding m-0 pl-3 pt-0 pb-3">
+            <strong>@Model.Name</strong>
+        </div>
+        <div class="row m-0">
+            <div class="col-lg-4 left-side-product-box pb-3">
+                <img src="@Model.ImageUrl" class="border p-3">
+            </div>
+            <div class="col-lg-8">
+                <div class="right-side-pro-detail border p-3 m-0">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p class="m-0 p-0 price-pro">@Model.Price лв.</p>
+                            <hr class="p-0 m-0">
+                        </div>
+                        <div class="col-lg-12 pt-2">
+                            <h5>Описание</h5>
+                            <span>
+                                @shortenerService.Transform(Model.Description, 1500)
+                            </span>
+                            <hr class="m-0 pt-2 mt-2">
+                        </div>
+                        <div class="col-lg-12">
+                            <p class="tag-section">
+                                <strong>Категория : </strong>
+                                <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@Model.Category.Id">@Model.Category.Name</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <h6>Количество :</h6>
+                            <input type="number" min="1" class="form-control text-center w-100" value="1">
+                        </div>
+                        <div class="col-lg-12 mt-3">
+                            <div class="row">
+                                <div class="col-lg-6 pb-2">
+                                    <a href="#" class="btn btn-danger w-100">
+                                        <i class="fa-solid fa-cart-plus"></i> Добави в количката
+                                    </a>
+                                </div>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <div class="col-lg-6">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@Model.Id" class="btn btn-info w-100">
+                                            <i class="fa-solid fa-pen-to-square"></i> Редактирай
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

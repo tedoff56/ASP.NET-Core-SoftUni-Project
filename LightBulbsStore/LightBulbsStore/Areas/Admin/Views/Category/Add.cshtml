@@ -1,0 +1,40 @@
+﻿@model LightBulbsStore.Core.Models.Category.CategoryCreateViewModel;
+
+@{
+    ViewData["Title"] = "Добавяне на категория";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+    <div>
+        <h4 class="text-center icon_pencil-edit"> @ViewData["Title"] </h4>
+    </div>
+    <br />
+
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-sm-12">
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" type="text" class="form-control" placeholder="Пример: Лед ленти">
+                        <span asp-validation-for="Name" class="small text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control" rows="7"></textarea>
+                        <span asp-validation-for="Description" class="small text-danger"></span>
+                    </div>
+                    <input class="btn btn-primary text-center" style="margin-top: 8px" type="submit" value="Запази" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

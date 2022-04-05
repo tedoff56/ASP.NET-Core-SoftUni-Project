@@ -1,0 +1,79 @@
+﻿@using LightBulbsStore.Core.Models.Cart
+@model CartViewModel
+@{
+    ViewData["Title"] = "Количка";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="shopping__cart__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Продукт</th>
+                            <th>Количество</th>
+                            <th>Общо</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <img src="@product.ImageUrl" alt="">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6>@product.Name</h6>
+                                        <h5>@product.Price лв</h5>
+                                    </div>
+                                </td>
+                                <td class="quantity__item">
+                                    <div class="quantity">
+                                        <div class="pro-qty-2">
+                                            <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price">@product.TotalPrice</td>
+                                <form asp-controller="Cart" asp-action="Update" method="post">
+                                <td class="cart__close">
+                                    <a href="#" onclick="this.parentElement.submit()">
+                                        <i class="fa fa-close"></i>
+                                    </a>
+                                </td>
+                                </form>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="continue__btn">
+                        <a asp-controller="Product" asp-action="Index">Продължи да пазаруваш</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="continue__btn update__btn">
+                        <form formaction="@Url.Action("Update","Cart")" method="post">
+                            <a href="#" onclick="this.parentElement.submit()">Обнови количката</a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="cart__total">
+                <h6>Cart total</h6>
+                <ul>
+                    <li>Total <span>@Model.TotalPrice лв.</span></li>
+                </ul>
+                <a href="#" class="primary-btn">Продължи</a>
+            </div>
+        </div>
+    </div>
+</div>

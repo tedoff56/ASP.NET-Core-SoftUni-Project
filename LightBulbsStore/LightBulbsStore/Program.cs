@@ -5,9 +5,11 @@ using LightBulbsStore.Extensions;
 using LightBulbsStore.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("BulbsStoreDbContextConnection"); 
+var connectionString = builder.Configuration.GetConnectionString("BulbsStoreDbContextConnection");
 
 // Add services to the container.
 builder.Services.AddApplicationDbContexts(builder.Configuration);
@@ -22,6 +24,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BulbsStoreDbContext>();
 
+builder.Services.AddHttpContextAccessor();
 
 //builder.Services.AddAuthentication()
 //    .AddFacebook(options =>

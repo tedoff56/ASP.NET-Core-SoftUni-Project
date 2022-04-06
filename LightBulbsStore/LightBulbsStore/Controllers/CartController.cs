@@ -23,36 +23,49 @@ namespace LightBulbsStore.Controllers
             cartService = _cartService;
         }
 
-        public async Task<IActionResult> Index(CartViewModel cartViewModel)
+        private string UserId => userManager.GetUserId(User);
+
+        public async Task<IActionResult> Index()
         {
-            var userId = (await userManager.GetUserAsync(User)).Id;
+            var cartProducts = await cartService.GetProducts(UserId);
 
-            var cartProducts = await cartService.GetProducts(userId);
-
-            cartViewModel.Products = cartProducts;
-
-            cartViewModel.TotalPrice = cartProducts.Sum(p => p.Quantity * p.Price);
+            var cartViewModel = new CartViewModel()
+            {
+                Id = await cartService.GetCartId(UserId),
+                Products = cartProducts,
+                TotalPrice = cartProducts.Sum(p => p.Quantity * p.Price)
+            };
 
             return View(cartViewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(CartViewModel cartViewModel)
+        {
+
+            await cartService.UpdateCart(cartViewModel, UserId);
+
+            return RedirectToAction("Index");
+
+        }
+
         public async Task<IActionResult> AddProduct(string productId)
         {
-            var userId = (await userManager.GetUserAsync(User)).Id;
 
-            bool productAdded = await cartService.AddProduct(productId, userId);
+            await cartService.AddProduct(productId, UserId);
 
             return Redirect("/Product/");
 
         }
 
-        public async Task<IActionResult> Update(CartViewModel cartViewModel)
+        public async Task<IActionResult> RemoveProduct(string productId)
         {
-            await cartService.UpdateCart(cartViewModel);
+            await cartService.RemoveProduct(UserId, productId);
 
-            return View(cartViewModel);
+            return RedirectToAction("Index");
 
         }
+
 
     }
 }

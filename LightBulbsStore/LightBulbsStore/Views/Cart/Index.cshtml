@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col">
             <div class="shopping__cart__table">
                 <table>
                     <thead>
@@ -18,8 +18,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var product in Model.Products)
-                        {
+                        <form method="post" id="setQuantity">
+                            @foreach (var product in Model.Products)
+                            {
                             <tr>
                                 <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
@@ -33,20 +34,24 @@
                                 <td class="quantity__item">
                                     <div class="quantity">
                                         <div class="pro-qty-2">
-                                            <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
+                                            <input asp-for="@product.Id" type="text" value="@product.Quantity">
                                         </div>
                                     </div>
                                 </td>
                                 <td class="cart__price">@product.TotalPrice</td>
-                                <form asp-controller="Cart" asp-action="Update" method="post">
                                 <td class="cart__close">
-                                    <a href="#" onclick="this.parentElement.submit()">
+                                    <a href="#" onclick="document.getElementById('setQuantity').submit()">
+                                        <i class="fa-solid fa-circle-arrow-up"></i>
+                                    </a>
+                                </td>
+                                <td class="cart__close">
+                                    <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.Id">
                                         <i class="fa fa-close"></i>
                                     </a>
                                 </td>
-                                </form>
                             </tr>
-                        }
+                            }
+                        </form>
                     </tbody>
                 </table>
             </div>
@@ -57,16 +62,16 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="continue__btn update__btn">
-                        <form formaction="@Url.Action("Update","Cart")" method="post">
-                            <a href="#" onclick="this.parentElement.submit()">Обнови количката</a>
-                        </form>
-
-                    </div>
+            <div class="cart__total">
+                <ul>
+                    <li>Total <span>@Model.TotalPrice лв.</span></li>
+                </ul>
+                <a href="#" class="primary-btn">Продължи</a>
+            </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+@*        <div class="col-lg-4">
             <div class="cart__total">
                 <h6>Cart total</h6>
                 <ul>
@@ -74,6 +79,6 @@
                 </ul>
                 <a href="#" class="primary-btn">Продължи</a>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>

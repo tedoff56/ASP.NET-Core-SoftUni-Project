@@ -3,26 +3,27 @@ using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LightBulbsStore.ViewComponents
 {
     public class CartViewComponent : ViewComponent
     {
-        private readonly UserManager<User> userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         private readonly ICartService cartService;
 
         public CartViewComponent(
             ICartService _cartService,
-            UserManager<User> _userManager)
+            IHttpContextAccessor _httpContextAccessor)
         {
             cartService = _cartService;
-            userManager = _userManager;
+            httpContextAccessor = _httpContextAccessor;
         }
 
         public IViewComponentResult Invoke()
         {
-            var userId = userManager.GetUserId(HttpContext.User);
+            var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var model = new LayoutViewModel 
             { 

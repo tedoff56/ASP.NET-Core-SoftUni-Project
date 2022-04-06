@@ -12,6 +12,10 @@ namespace LightBulbsStore.Core.Services.Contracts
 
         Task<decimal> TotalPrice(string userId);
 
-        Task UpdateCart(CartViewModel cartViewModel);
+        Task UpdateCart(CartViewModel cartViewModel, string userId);
+
+        Task<string> GetCartId(string userId);
+
+        Task RemoveProduct(string userId, string productId);
     }
 }

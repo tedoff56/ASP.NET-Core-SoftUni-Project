@@ -4,6 +4,7 @@ using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Repositories;
 using LightBulbsStore.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LightBulbsStore.Extensions
 {
@@ -17,6 +18,7 @@ namespace LightBulbsStore.Extensions
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICartService, CartService>();
             services.AddSingleton<TextShortenerService>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             return services;
         }

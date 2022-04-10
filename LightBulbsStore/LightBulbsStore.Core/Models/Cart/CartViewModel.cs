@@ -13,7 +13,7 @@ namespace LightBulbsStore.Core.Models.Cart
             Products = new List<CartProductViewModel>();
         }
 
-        public string Id { get; set; }
+        public string CartId { get; set; }
 
         public IEnumerable<CartProductViewModel> Products { get; set; }
 

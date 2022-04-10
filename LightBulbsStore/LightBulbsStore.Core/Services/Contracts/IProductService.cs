@@ -5,15 +5,13 @@ namespace LightBulbsStore.Core.Services.Contracts;
 
 public interface IProductService
 {
-    Task AddProduct(ProductEditFormViewModel product);
+    Task AddProductAsync(ProductEditFormViewModel product);
 
-    IEnumerable<ProductViewModel> GetAllProducts();
+    Task<IEnumerable<ProductViewModel>> GetAllProductsAsync(string id);
 
-    IEnumerable<ProductViewModel> GetAllProducts(string id);
+    Task<ProductEditFormViewModel> GetProductForEditAsync(string productId);
 
-    Task<ProductEditFormViewModel> GetProductForEdit(string productId);
+    Task<bool> EditProductAsync(ProductEditFormViewModel model);
 
-    Task<bool> EditProduct(ProductEditFormViewModel model);
-
-    Task<ProductViewModel> GetProduct(string productId);
+    Task<ProductViewModel> GetProductAsync(string productId);
 }

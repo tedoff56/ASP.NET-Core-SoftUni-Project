@@ -27,11 +27,13 @@ namespace LightBulbsStore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var cartProducts = await cartService.GetProducts(UserId);
+            ViewBag.CartIsEmpty = await cartService.IsEmpty(UserId);
+
+            var cartProducts = await cartService.GetProductsAsync(UserId);
 
             var cartViewModel = new CartViewModel()
             {
-                Id = await cartService.GetCartId(UserId),
+                CartId = await cartService.GetCartIdAsync(UserId),
                 Products = cartProducts,
                 TotalPrice = cartProducts.Sum(p => p.Quantity * p.Price)
             };
@@ -39,31 +41,31 @@ namespace LightBulbsStore.Controllers
             return View(cartViewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(CartViewModel cartViewModel)
-        {
-
-            await cartService.UpdateCart(cartViewModel, UserId);
-
-            return RedirectToAction("Index");
-
-        }
-
         public async Task<IActionResult> AddProduct(string productId)
         {
 
-            await cartService.AddProduct(productId, UserId);
+            await cartService.AddProductAsync(productId, UserId);
 
-            return Redirect("/Product/");
+            return RedirectToAction(nameof(Index), 
+                nameof(CartController).Replace("Controller", string.Empty), 
+                cartService.GetCartIdAsync(UserId));
 
         }
 
         public async Task<IActionResult> RemoveProduct(string productId)
         {
-            await cartService.RemoveProduct(UserId, productId);
+            await cartService.RemoveProductAsync(UserId, productId);
 
             return RedirectToAction("Index");
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CartViewModel model)
+        {
+            await cartService.UpdateAsync(model);
+
+            return RedirectToAction(nameof(Index));
         }
 
 

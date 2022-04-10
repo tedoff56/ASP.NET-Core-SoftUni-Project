@@ -21,7 +21,7 @@ namespace LightBulbsStore.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CategoryCreateViewModel categoryModel)
         {
-            bool createdSuccessfully = await categoryService.CreateCategory(categoryModel);
+            bool createdSuccessfully = await categoryService.CreateCategoryAsync(categoryModel);
 
             if (!ModelState.IsValid || !createdSuccessfully)
             {

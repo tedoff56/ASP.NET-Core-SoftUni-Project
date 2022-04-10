@@ -19,36 +19,39 @@ public class ProductController : BaseController
         categoryService = _categoryService;
     }
 
-    public IActionResult Add()
+    public async Task<IActionResult> Add()
     {
         return View(new ProductEditFormViewModel()
         {
-            Categories = categoryService.GetAllCategories()
+            Categories = await categoryService.GetAllCategoriesAsync()
         });
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(ProductEditFormViewModel product)
     {
-        if (!categoryService.GetAllCategories().Any(c => c.Id == product.CategoryId))
+        bool categoryExist = (await categoryService.GetAllCategoriesAsync())
+            .Any(c => c.Id == product.CategoryId);
+
+        if (!categoryExist)
         {
             ModelState.AddModelError(nameof(product.CategoryId), "Invalid category!");
         }
 
         if (!ModelState.IsValid)
         {
-            product.Categories = categoryService.GetAllCategories();
+            product.Categories = await categoryService.GetAllCategoriesAsync();
             return this.View(product);
         }
 
-        await productService.AddProduct(product);
+        await productService.AddProductAsync(product);
 
         return Redirect("~/Product/");
     }
 
     public async Task<IActionResult> Edit(string productId)
     {
-        var product = await productService.GetProductForEdit(productId);
+        var product = await productService.GetProductForEditAsync(productId);
 
         return View(product);
     }
@@ -57,14 +60,14 @@ public class ProductController : BaseController
     public async Task<IActionResult> Edit(string productId, ProductEditFormViewModel productModel)
     {
 
-        productModel.Categories = categoryService.GetAllCategories();
+        productModel.Categories = await categoryService.GetAllCategoriesAsync();
         productModel.Id = productId;
 
         if (!ModelState.IsValid)
         {
             return View(productModel);
         }
-        var editedSuccessfully = await productService.EditProduct(productModel);
+        var editedSuccessfully = await productService.EditProductAsync(productModel);
 
         if (!editedSuccessfully)
         {

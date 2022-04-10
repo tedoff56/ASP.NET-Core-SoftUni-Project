@@ -4,18 +4,24 @@ namespace LightBulbsStore.Core.Services.Contracts
 {
     public interface ICartService
     {
-        Task<IEnumerable<CartProductViewModel>> GetProducts(string userId);
+        Task<IEnumerable<CartProductViewModel>> GetProductsAsync(string userId);
 
-        Task<bool> AddProduct(string productId, string userId);
+        Task<bool> AddProductAsync(string productId, string userId);
 
-        Task<int> TotalCartItems(string userId);
+        Task<int> TotalCartItemsAsync(string userId);
 
         Task<decimal> TotalPrice(string userId);
 
-        Task UpdateCart(CartViewModel cartViewModel, string userId);
+        Task UpdateCartAsync(CartViewModel cartViewModel, string userId);
 
-        Task<string> GetCartId(string userId);
+        Task<string> GetCartIdAsync(string userId);
 
-        Task RemoveProduct(string userId, string productId);
+        Task RemoveProductAsync(string userId, string productId);
+
+        Task UpdateAsync(CartViewModel model);
+
+        Task EmptyCartAsync(string userId);
+
+        Task<bool> IsEmpty(string userId);
     }
 }

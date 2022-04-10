@@ -32,6 +32,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IUserService _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<User> userManager,
@@ -39,7 +40,8 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IUserService userService)
+            IUserService userService,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -48,6 +50,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _userService = userService;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -129,7 +132,14 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(user);
 
-                    await _userService.CreateCustomer(userId);
+                    var defaultrole = await _roleManager.FindByNameAsync("Customer");
+
+                    if (defaultrole != null)
+                    {
+                        var roleresult = await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                    }
+
+                    await _userService.CreateCustomerAsync(userId);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

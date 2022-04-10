@@ -22,19 +22,22 @@
                                 <hr>
                                 <p>Категория: <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@product.Category.Id">@product.Category.Name</a> </p>
                                 <a href="#" class="btn btn-default" disabled="" data-original-title="" title="">@product.Price лв.</a>
-
-                                <p>
-                                    <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@product.Id" class="btn btn-warning pull-right" data-original-title="" title="">
-                                        <i class="fa-solid fa-cart-arrow-down"></i> Добави
-                                    </a>
-                                    @if (User.IsInRole("Administrator"))
-                                    {
-                                        <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-info pull-right" data-original-title="" title="">
-
-                                            <i class="fa-solid fa-pen-to-square"></i> Промяна
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <p>
+                                        <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@product.Id" class="btn btn-warning pull-right" data-original-title="" title="">
+                                            <i class="fa-solid fa-cart-arrow-down"></i> Добави
                                         </a>
-                                    }
-                                </p>
+
+                                        @if (User.IsInRole("Administrator"))
+                                        {
+                                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-info pull-right" data-original-title="" title="">
+
+                                                <i class="fa-solid fa-pen-to-square"></i> Промяна
+                                            </a>
+                                        }
+                                    </p>
+                                }
                             </div>
                         </div>
                     </div>

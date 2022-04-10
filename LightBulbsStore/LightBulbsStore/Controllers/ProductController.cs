@@ -13,21 +13,16 @@ namespace LightBulbsStore.Controllers
             productService = _productService;
         }
 
-        public IActionResult Index(string categoryId)
+        public async Task<IActionResult> Index(string categoryId)
         {
-            var result = productService.GetAllProducts(categoryId);
-
-            if (categoryId is null)
-            {
-                result = productService.GetAllProducts();
-            }
+            var result = await productService.GetAllProductsAsync(categoryId);
 
             return View(result);
         }
 
         public async Task<IActionResult> Info(string productId)
         {
-            var product = await productService.GetProduct(productId);
+            var product = await productService.GetProductAsync(productId);
 
             if(product is null)
             {

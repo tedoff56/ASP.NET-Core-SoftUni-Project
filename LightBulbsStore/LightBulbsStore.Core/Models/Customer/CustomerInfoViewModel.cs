@@ -1,34 +1,38 @@
 ﻿using LightBulbsStore.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LightBulbsStore.Core.Models.Customer
 {
     public class CustomerInfoViewModel
     {
+        [Required]
+        [Display(Name = "Име")]
         [MaxLength(DataConstants.CustomerNameMaxLength)]
         public string FirstName { get; set; }
 
+        [Required]
+        [Display(Name = "Фамилия")]
         [MaxLength(DataConstants.CustomerNameMaxLength)]
         public string LastName { get; set; }
 
-        [Phone]
+        [Required]
+        [Display(Name = "Телефонен номер")]
         [MaxLength(DataConstants.CustomerPhoneNumberMaxLength)]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        [Display(Name = "Град")]
         [MaxLength(DataConstants.CustomerCityNameMaxLength)]
         public string City { get; set; }
 
+        [Required]
+        [Display(Name = "Адрес")]
         [MaxLength(DataConstants.CustomerAddressMaxLength)]
         public string Address { get; set; }
 
+        [Required]
+        [Display(Name = "Пощенски код")]
         [RegularExpression(@"\d{4}")]
-        [MaxLength(DataConstants.CustomerZipCodeMaxLength)]
-        public string? ZipCode { get; set; }
-
+        public string ZipCode { get; set; }
     }
 }

@@ -4,81 +4,91 @@
     ViewData["Title"] = "Количка";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="shopping__cart__table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Продукт</th>
-                            <th>Количество</th>
-                            <th>Общо</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <form method="post" id="setQuantity">
-                            @foreach (var product in Model.Products)
-                            {
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="@product.ImageUrl" alt="">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h6>@product.Name</h6>
-                                        <h5>@product.Price лв</h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity">
-                                        <div class="pro-qty-2">
-                                            <input asp-for="@product.Id" type="text" value="@product.Quantity">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart__price">@product.TotalPrice</td>
-                                <td class="cart__close">
-                                    <a href="#" onclick="document.getElementById('setQuantity').submit()">
-                                        <i class="fa-solid fa-circle-arrow-up"></i>
-                                    </a>
-                                </td>
-                                <td class="cart__close">
-                                    <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.Id">
-                                        <i class="fa fa-close"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            }
-                        </form>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="continue__btn">
-                        <a asp-controller="Product" asp-action="Index">Продължи да пазаруваш</a>
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            @if (ViewBag.CartIsEmpty)
+            {
+                <div class="centered">
+                <h3>Количката е празна!</h3>
+                </div>
+            }
+            else
+            {
+
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ПРОДУКТ</th>
+                                    <th>КОЛИЧЕСТВО</th>
+                                    <th>ОБЩО</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form method="post" id="quantityForm">
+                                    @foreach (var product in Model.Products)
+                                    {
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                <img src="@product.ImageUrl" alt="">
+                                            </div>
+                                            <div class="product__cart__item__text">
+                                                <a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id"><h6>@product.Name</a>
+                                                <h5>@product.Price лв</h5>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="quantity">
+                                                <div class="pro-qty-2">
+                                                    <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">@product.TotalPrice лв</td>
+                                        <td class="cart__close">
+                                            <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.Id">
+                                                <i class="fa fa-close"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </form>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a asp-controller="Product" asp-action="Index">Продължи да пазаруваш</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn update__btn">
+                                <a asp-controller="Cart" asp-action="Update" onclick="$(this).closest('form').submit()">
+                                    <i class="fa-solid fa-arrow-up"></i> Обнови количката
+                                </a>
+                                @*                            <button class="btn btn-link" type="submit" onclick="document.getElementById('quantityForm').submit();">
+                                    <i class="fa-solid fa-arrow-up"></i> Обнови количката
+                                    </button>*@
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="cart__total">
-                <ul>
-                    <li>Total <span>@Model.TotalPrice лв.</span></li>
-                </ul>
-                <a href="#" class="primary-btn">Продължи</a>
-            </div>
+                <div class="col-lg-4">
+                    <div class="cart__total">
+                        <h6>Общо в количката</h6>
+                        <ul>
+                            <li>Total <span>@Model.TotalPrice лв</span></li>
+                        </ul>
+                        <a asp-controller="Order" asp-action="Index" class="primary-btn">Поръчай</a>
+                    </div>
                 </div>
-            </div>
+            }
+
         </div>
-@*        <div class="col-lg-4">
-            <div class="cart__total">
-                <h6>Cart total</h6>
-                <ul>
-                    <li>Total <span>@Model.TotalPrice лв.</span></li>
-                </ul>
-                <a href="#" class="primary-btn">Продължи</a>
-            </div>
-        </div>*@
     </div>
-</div>
+</section>

@@ -11,17 +11,12 @@ namespace LightBulbsStore.Core.Services
     {
         private readonly IBulbsStoreDbRepository repo;
 
-        private readonly UserManager<User> userManager;
-
-        public UserService(
-            IBulbsStoreDbRepository _repo,
-            UserManager<User> _userManager)
+        public UserService(IBulbsStoreDbRepository _repo)
         {
             repo = _repo;
-            userManager = _userManager;
         }
 
-        public async Task CreateCustomer(string userId)
+        public async Task CreateCustomerAsync(string userId)
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
@@ -47,7 +42,7 @@ namespace LightBulbsStore.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<CustomerInfoViewModel> GetCustomerInfo(string userId)
+        public async Task<CustomerInfoViewModel> GetCustomerInfoAsync(string userId)
         {
             var customer = await repo.All<Customer>()
                 .SingleOrDefaultAsync(c => c.UserId == userId);
@@ -70,11 +65,12 @@ namespace LightBulbsStore.Core.Services
 
 
 
-        public async Task SetCustomerInfo(string userId, CustomerInfoViewModel model)
+        public async Task SetCustomerInfoAsync(string userId, CustomerInfoViewModel model)
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-            var customer = await repo.GetByIdAsync<Customer>(user.CustomerId);
+            var customer = await repo.All<Customer>()
+                .FirstOrDefaultAsync(c => c.UserId == userId);
 
             customer.FirstName = model.FirstName;
             customer.LastName = model.LastName;

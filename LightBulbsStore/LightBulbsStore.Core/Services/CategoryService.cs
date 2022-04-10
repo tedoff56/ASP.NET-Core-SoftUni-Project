@@ -3,6 +3,7 @@ using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace LightBulbsStore.Core.Services
 {
@@ -15,7 +16,7 @@ namespace LightBulbsStore.Core.Services
             repo = _repo;
         }
 
-        public async Task<bool> CreateCategory(CategoryCreateViewModel categoryModel)
+        public async Task<bool> CreateCategoryAsync(CategoryCreateViewModel categoryModel)
         {
             bool categoryAlreadyExists = repo.All<Category>().Any(c => c.Name.ToUpper() == categoryModel.Name.ToUpper());
 
@@ -35,16 +36,16 @@ namespace LightBulbsStore.Core.Services
             return true;
         }
 
-        public IEnumerable<CategoryViewModel> GetAllCategories()
+        public async Task<IEnumerable<CategoryViewModel>> GetAllCategoriesAsync()
         {
-            return repo.All<Category>()
+            return await repo.All<Category>()
                 .Select(c => new CategoryViewModel
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Description = c.Description
                 })
-                .ToList();
+                .ToListAsync();
         }
     }
 }

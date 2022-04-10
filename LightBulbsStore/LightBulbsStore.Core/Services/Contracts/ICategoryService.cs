@@ -5,8 +5,8 @@ namespace LightBulbsStore.Core.Services.Contracts
 {
     public interface ICategoryService
     {
-        Task<bool> CreateCategory(CategoryCreateViewModel categoryModel);
+        Task<bool> CreateCategoryAsync(CategoryCreateViewModel categoryModel);
 
-        IEnumerable<CategoryViewModel> GetAllCategories();
+        Task<IEnumerable<CategoryViewModel>> GetAllCategoriesAsync();
     }
 }

@@ -12,9 +12,9 @@ namespace LightBulbsStore.ViewComponents
             categoryService = _categoryService;
         }
 
-        public IViewComponentResult Invoke() 
+        public async Task<IViewComponentResult> InvokeAsync() 
         {
-            var result = categoryService.GetAllCategories();
+            var result = await categoryService.GetAllCategoriesAsync();
 
             return View(result);
         }

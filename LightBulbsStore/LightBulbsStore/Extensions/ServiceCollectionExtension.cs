@@ -17,6 +17,7 @@ namespace LightBulbsStore.Extensions
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<TextShortenerService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

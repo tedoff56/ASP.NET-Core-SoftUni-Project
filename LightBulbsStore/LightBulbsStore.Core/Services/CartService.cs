@@ -32,7 +32,7 @@ namespace LightBulbsStore.Core.Services
             userManager = _userManager;
         }
 
-        public async Task<IEnumerable<CartProductViewModel>> GetProducts(string userId)
+        public async Task<IEnumerable<CartProductViewModel>> GetProductsAsync(string userId)
         {
             var customer = await repo.All<Customer>()
                 .Where(c => c.UserId == userId)
@@ -45,7 +45,8 @@ namespace LightBulbsStore.Core.Services
                 .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync();
 
-            return cart.CartProducts
+            var products = cart.CartProducts
+                .Where(p => p.Quantity > 0)
                 .Select(p => new CartProductViewModel()
                 {
                     Id = p.ProductId,
@@ -54,12 +55,12 @@ namespace LightBulbsStore.Core.Services
                     CategoryName = p.Product.Category.Name,
                     Price = p.Product.Price,
                     Quantity = p.Quantity
-                })
-                .Where(p => p.Quantity > 0);
+                });
 
+            return products;
         }
 
-        public async Task<bool> AddProduct(string productId, string userId)
+        public async Task<bool> AddProductAsync(string productId, string userId)
         {
             var customer = await repo.All<Customer>()
                 .Where(c => c.UserId == userId)
@@ -102,23 +103,23 @@ namespace LightBulbsStore.Core.Services
             return true;
         }
 
-        public async Task<int> TotalCartItems(string userId)
+        public async Task<int> TotalCartItemsAsync(string userId)
         {
-            var products = await GetProducts(userId);
+            var products = await GetProductsAsync(userId);
 
             return products.Select(p => p.Quantity).Sum();
         }
 
         public async Task<decimal> TotalPrice(string userId)
         {
-            var products = await GetProducts(userId);
+            var products = await GetProductsAsync(userId);
 
             return products.Sum(p => p.Quantity * p.Price);
         }
 
-        public async Task UpdateCart(CartViewModel cartViewModel, string userId)
+        public async Task UpdateCartAsync(CartViewModel cartViewModel, string userId)
         {
-            var cartId = await GetCartId(userId);
+            var cartId = await GetCartIdAsync(userId);
 
             if (cartId == null)
             {
@@ -145,7 +146,7 @@ namespace LightBulbsStore.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<string> GetCartId(string userId)
+        public async Task<string> GetCartIdAsync(string userId)
         {
             var cart = await repo.All<Cart>()
                 .Where(c => c.Customer.UserId == userId)
@@ -154,7 +155,7 @@ namespace LightBulbsStore.Core.Services
             return cart.Id;
         }
 
-        public async Task RemoveProduct(string userId, string productId)
+        public async Task RemoveProductAsync(string userId, string productId)
         {
             var cart = await repo.All<Cart>()
                 .Where(c => c.Customer.UserId == userId)
@@ -172,34 +173,49 @@ namespace LightBulbsStore.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        //public async Task SetQuantity(string userId, string productId, int quantity)
-        //{
-        //    if(quantity < 0 || quantity > 99)
-        //    {
-        //        return;
-        //    }
+        public async Task UpdateAsync(CartViewModel model)
+        {
+            var cart = await repo.GetByIdAsync<Cart>(model.CartId);
 
-        //    var cartId = GetCartId(userId);
+            foreach (var product in model.Products)
+            {
+                var cartProduct = cart.CartProducts
+                    .FirstOrDefault(cp => cp.ProductId == product.Id);
 
-        //    var cart = await repo.All<Cart>()
-        //        .Where(c => c.Customer.UserId == userId)
-        //        .Include(c => c.CartProducts)
-        //        .ThenInclude(cp => cp.Product)
-        //        .FirstOrDefaultAsync();
+                cartProduct.Quantity = product.Quantity;
 
+                repo.Update(cartProduct);
+            }
 
-        //    var product = cart.CartProducts
-        //        .FirstOrDefault(cp => cp.ProductId == productId && cp.Quantity < quantity);
+            await repo.SaveChangesAsync();
 
-        //    if(product is null)
-        //    {
-        //        return;
-        //    }
+        }
 
-        //    product.Quantity = quantity;
+        public async Task EmptyCartAsync(string userId)
+        {
+            var cart = await repo.All<Cart>()
+                .Where(c => c.Customer.UserId == userId)
+                .Include(c => c.CartProducts)
+                .ThenInclude(cp => cp.Product)
+                .FirstOrDefaultAsync();
 
-        //    repo.Update(product);
-        //    await repo.SaveChangesAsync();
-        //}
+            var cartProducts = cart.CartProducts
+                .Where(cp => cp.Quantity > 0);
+
+            foreach (var product in cartProducts)
+            {
+                product.Quantity = 0;
+            }
+
+            repo.Update(cart);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsEmpty(string userId)
+        {
+            var products = await GetProductsAsync(userId);
+
+            return products is null || !products.Any() ? true : false;
+        }
     }
 }

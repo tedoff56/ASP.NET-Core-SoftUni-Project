@@ -27,34 +27,39 @@ namespace LightBulbsStore.Controllers
             userService = _userService;
         }
 
-        [Route("CreateRole")]
-        public async Task<IActionResult> CreateRole()
-        {
+        //[Route("CreateRole")]
+        //public async Task<IActionResult> CreateRole()
+        //{
 
-            await roleManager.CreateAsync(new IdentityRole()
-            {
-                Name = "Administrator"
-            });
+        //    await roleManager.CreateAsync(new IdentityRole()
+        //    {
+        //        Name = "Administrator"
+        //    });
 
-            return Ok();
-        }
+        //    await roleManager.CreateAsync(new IdentityRole()
+        //    {
+        //        Name = "Customer"
+        //    });
 
-        [Route("SetRole")]
-        public async Task<IActionResult> SetRole()
-        {
-            var user = userManager.Users
-                .Where(u => u.Email == "tedoff.96@gmail.com")
-                .SingleOrDefault();
+        //    return Ok();
+        //}
 
-            if (user is null)
-            {
-                return BadRequest();
-            }
+        //[Route("SetRole")]
+        //public async Task<IActionResult> SetRole()
+        //{
+        //    var user = userManager.Users
+        //        .Where(u => u.Email == "tedoff.96@gmail.com")
+        //        .SingleOrDefault();
 
-            await userManager.AddToRoleAsync(user, "Administrator");
+        //    if (user is null)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            return Ok();
-        }
+        //    await userManager.AddToRoleAsync(user, "Administrator");
+
+        //    return Ok();
+        //}
 
         [Route("CustomerInfo")]
         public async Task<IActionResult> CustomerInfo()
@@ -62,7 +67,7 @@ namespace LightBulbsStore.Controllers
 
             var userId = (await userManager.GetUserAsync(User)).Id;
 
-            var customer = await userService.GetCustomerInfo(userId);
+            var customer = await userService.GetCustomerInfoAsync(userId);
 
             return View(customer);
 
@@ -79,7 +84,7 @@ namespace LightBulbsStore.Controllers
                 return View(customerInfoViewModel);
             }
 
-            await userService.SetCustomerInfo(userId, customerInfoViewModel);
+            await userService.SetCustomerInfoAsync(userId, customerInfoViewModel);
 
             return View(customerInfoViewModel);
         }

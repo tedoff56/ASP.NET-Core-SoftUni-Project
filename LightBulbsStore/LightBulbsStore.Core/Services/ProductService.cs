@@ -23,7 +23,7 @@ public class ProductService : IProductService
         categoryService = _categoryService;
     }
 
-    public async Task AddProduct(ProductEditFormViewModel model)
+    public async Task AddProductAsync(ProductEditFormViewModel model)
     {
         var product = new Product()
         {
@@ -38,31 +38,31 @@ public class ProductService : IProductService
         await repo.SaveChangesAsync();
     }
 
-    public async Task<ProductEditFormViewModel> GetProductForEdit(string productId)
+    public async Task<ProductEditFormViewModel> GetProductForEditAsync(string productId)
     {
         var product = await repo.GetByIdAsync<Product>(productId);
 
-        if(product is null)
+        if (product is null)
         {
             return new ProductEditFormViewModel();
         }
 
-       return new ProductEditFormViewModel()
-       {
-           Name = product.Name,
-           Price = product.Price,
-           Description = product.Description,
-           ImageUrl = product.ImageUrl,
-           CategoryId = product.CategoryId,
-           Categories = categoryService.GetAllCategories()
-       } ;
+        return new ProductEditFormViewModel()
+        {
+            Name = product.Name,
+            Price = product.Price,
+            Description = product.Description,
+            ImageUrl = product.ImageUrl,
+            CategoryId = product.CategoryId,
+            Categories = await categoryService.GetAllCategoriesAsync()
+        };
     }
-    
-    public async Task<bool> EditProduct(ProductEditFormViewModel model)
+
+    public async Task<bool> EditProductAsync(ProductEditFormViewModel model)
     {
         var product = await repo.GetByIdAsync<Product>(model.Id);
 
-        if(product is null)
+        if (product is null)
         {
             return false;
         }
@@ -79,8 +79,9 @@ public class ProductService : IProductService
         return true;
     }
 
-    public IEnumerable<ProductViewModel> GetAllProducts()
-        => repo.All<Product>()
+    public async Task<IEnumerable<ProductViewModel>> GetAllProductsAsync(string categoryId = null)
+    {
+        var products = await repo.All<Product>()
             .Select(p => new ProductViewModel()
             {
                 Id = p.Id,
@@ -96,30 +97,17 @@ public class ProductService : IProductService
                 }
 
             })
-            .ToList();
+            .ToListAsync();
 
-    public IEnumerable<ProductViewModel> GetAllProducts(string categoryId)
-    {
-        return repo.All<Product>()
-            .Where(p => p.CategoryId == categoryId)
-            .Select(p => new ProductViewModel()
-            {
-                Id=p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                ImageUrl = p.ImageUrl,
-                Category = new CategoryViewModel
-                {
-                    Id = categoryId,
-                    Name = p.Category.Name,
-                    Description = p.Description,
-                }
-            })
-            .ToList();
+        if (categoryId is null)
+        {
+            return products;
+        }
+
+        return products.Where(p => p.Category.Id == categoryId);
     }
 
-    public async Task<ProductViewModel> GetProduct(string productId)
+    public async Task<ProductViewModel> GetProductAsync(string productId)
     {
         var product = await repo.GetByIdAsync<Product>(productId);
 

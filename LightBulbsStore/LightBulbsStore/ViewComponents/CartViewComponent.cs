@@ -27,7 +27,7 @@ namespace LightBulbsStore.ViewComponents
 
             var model = new LayoutViewModel 
             { 
-                CartProductsCount = cartService.TotalCartItems(userId).Result,
+                CartProductsCount = cartService.TotalCartItemsAsync(userId).Result,
                 CartTotalPrice = cartService.TotalPrice(userId).Result,
             };
 

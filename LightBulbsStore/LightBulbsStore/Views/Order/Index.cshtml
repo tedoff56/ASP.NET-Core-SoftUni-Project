@@ -1,0 +1,104 @@
+﻿@model OrderViewModel
+@{
+    var customer = Model.Customer;
+}
+
+<div class="container">
+    <div class="checkout__form">
+        <form asp-action="Place" method="post" id="orderForm">
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                    <h6 class="checkout__title">Информация за доставка</h6>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>
+                                    <label asp-for="@customer.FirstName"></label><span>*</span>
+                                </p>
+                                <input asp-for="@customer.FirstName" type="text" value="@customer.FirstName">
+                                <span asp-validation-for="@customer.FirstName" class="small text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>
+                                    <label asp-for="@customer.LastName"></label><span>*</span>
+                                </p>
+                                <input asp-for="@customer.LastName" type="text" value="@customer.LastName">
+                                <span asp-validation-for="@customer.LastName" class="small text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout__input">
+                        <p>
+                            <label asp-for="@customer.Address"></label><span>*</span>
+                        </p>
+                        <input asp-for="@customer.Address" type="text" value="@customer.Address" class="checkout__input__add">
+                        <span asp-validation-for="@customer.Address" class="small text-danger"></span>
+                    </div>
+                    <div class="checkout__input">
+                        <p>
+                            <label asp-for="@customer.City"></label><span>*</span>
+                        </p>
+                        <input asp-for="@customer.City" value="@customer.City" type="text">
+                        <span asp-validation-for="@customer.City" class="small text-danger"></span>
+                    </div>
+                    <div class="checkout__input">
+                        <div class="checkout__input">
+                            <p>
+                                <label asp-for="@customer.ZipCode"></label><span>*</span>
+                            </p>
+                            <input asp-for="@customer.ZipCode" type="text" value="@customer.ZipCode">
+                            <span asp-validation-for="@customer.ZipCode" class="small text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>
+                                    <label asp-for="@customer.PhoneNumber"></label><span>*</span>
+                                </p>
+                                <input asp-for="@customer.PhoneNumber" type="text" value="@customer.PhoneNumber">
+                                <span asp-validation-for="@customer.PhoneNumber" class="small text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    @*                    <div class="checkout__input">
+                        <p>Order notes<span>*</span></p>
+                        <input type="text"
+                        placeholder="Notes about your order, e.g. special notes for delivery.">
+                        </div>*@
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="checkout__order">
+                        <h4 class="order__title">Продукти</h4>
+                        <div class="checkout__order__products">Име <span>Общо</span></div>
+                        <ul class="checkout__total__products">
+                            @foreach (var product in Model.Products)
+                            {
+                                <li>@product.Name <span>@(product.Price * product.Quantity)лв.</span></li>
+                            }
+
+                        </ul>
+                        <ul class="checkout__total__all">
+                            <li>Общо <span>@(Model.TotalCost)лв.</span></li>
+                        </ul>
+@*                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
+                            ut labore et dolore magna aliqua.
+                        </p>*@
+                        <div class="checkout__input__checkbox">
+                            <label for="payment">
+                                Наложен платеж
+                                <input type="checkbox" id="payment">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <input form="orderForm" type="submit" class="site-btn" value="Завърши"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

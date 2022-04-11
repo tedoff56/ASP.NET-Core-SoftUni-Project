@@ -1,5 +1,8 @@
-﻿using LightBulbsStore.Core.Models.Product;
+﻿using LightBulbsStore.Core.Models.Cart;
+using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LightBulbsStore.Controllers
@@ -8,10 +11,22 @@ namespace LightBulbsStore.Controllers
     {
         private readonly IProductService productService;
 
-        public ProductController(IProductService _productService)
+        private readonly ICartService cartService;
+
+        private readonly UserManager<User> userManager;
+
+
+        public ProductController(
+            IProductService _productService,
+            ICartService _cartService,
+            UserManager<User> _userManager)
         {
             productService = _productService;
+            cartService = _cartService;
+            userManager = _userManager;
         }
+
+        private string UserId => userManager.GetUserId(User);
 
         public async Task<IActionResult> Index(string categoryId)
         {
@@ -24,13 +39,12 @@ namespace LightBulbsStore.Controllers
         {
             var product = await productService.GetProductAsync(productId);
 
-            if(product is null)
+            if (product is null)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(product);
-
         }
     }
 }

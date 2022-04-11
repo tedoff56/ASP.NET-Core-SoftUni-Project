@@ -1,5 +1,8 @@
-﻿using LightBulbsStore.Core.Models.Cart;
+﻿using Humanizer;
+using LightBulbsStore.Core.Models.Cart;
+using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models.Cart;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -41,15 +44,21 @@ namespace LightBulbsStore.Controllers
             return View(cartViewModel);
         }
 
-        public async Task<IActionResult> AddProduct(string productId)
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(string productId, ProductViewModel model)
         {
 
-            await cartService.AddProductAsync(productId, UserId);
+            await cartService.AddProductAsync(new AddProductServiceModel()
+            {
+                ProductId = productId,
+                UserId = this.UserId,
+                Quantity= model.QuantityToAdd < 1 ? 1 : model.QuantityToAdd,
+            });
 
-            return RedirectToAction(nameof(Index), 
-                nameof(CartController).Replace("Controller", string.Empty), 
+            return RedirectToAction(nameof(Index),
+                nameof(CartController).Replace("Controller", string.Empty),
                 cartService.GetCartIdAsync(UserId));
-
         }
 
         public async Task<IActionResult> RemoveProduct(string productId)
@@ -61,8 +70,9 @@ namespace LightBulbsStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(CartViewModel model)
+        public async Task<IActionResult> Update(string cardId, CartViewModel model)
         {
+            model.CartId = cardId;
             await cartService.UpdateAsync(model);
 
             return RedirectToAction(nameof(Index));

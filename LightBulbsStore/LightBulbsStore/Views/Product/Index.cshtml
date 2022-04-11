@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-sm-7">
                                 <h4 class="title-store">
-                                    <strong><a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id">@product.Name</a></strong>
+                                    <strong><a asp-controller="Product" asp-action="Info" asp-route-productId="@product.ProductId">@product.Name</a></strong>
                                 </h4>
                                 <hr>
                                 <p>@shortenerService.Transform(product.Description, 200)</p>
@@ -25,13 +25,13 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <p>
-                                        <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@product.Id" class="btn btn-warning pull-right" data-original-title="" title="">
+                                        <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@product.ProductId" class="btn btn-warning pull-right" data-original-title="" title="">
                                             <i class="fa-solid fa-cart-arrow-down"></i> Добави
                                         </a>
 
                                         @if (User.IsInRole("Administrator"))
                                         {
-                                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id" class="btn btn-info pull-right" data-original-title="" title="">
+                                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.ProductId" class="btn btn-info pull-right" data-original-title="" title="">
 
                                                 <i class="fa-solid fa-pen-to-square"></i> Промяна
                                             </a>

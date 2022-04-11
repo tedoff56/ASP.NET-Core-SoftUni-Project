@@ -17,6 +17,8 @@ namespace LightBulbsStore.Core.Models.Cart
 
         public IEnumerable<CartProductViewModel> Products { get; set; }
 
+        public Dictionary<string, int> ProductIdQuantity { get; set; }
+
         public decimal TotalPrice { get; set; }
     }
 }

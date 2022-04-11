@@ -1,4 +1,5 @@
 ﻿using LightBulbsStore.Core.Models.Cart;
+using LightBulbsStore.Core.Services.Models.Cart;
 
 namespace LightBulbsStore.Core.Services.Contracts
 {
@@ -6,7 +7,7 @@ namespace LightBulbsStore.Core.Services.Contracts
     {
         Task<IEnumerable<CartProductViewModel>> GetProductsAsync(string userId);
 
-        Task<bool> AddProductAsync(string productId, string userId);
+        Task<bool> AddProductAsync(AddProductServiceModel model);
 
         Task<int> TotalCartItemsAsync(string userId);
 

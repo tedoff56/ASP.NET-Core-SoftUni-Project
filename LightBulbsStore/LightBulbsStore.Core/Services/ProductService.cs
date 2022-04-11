@@ -84,7 +84,7 @@ public class ProductService : IProductService
         var products = await repo.All<Product>()
             .Select(p => new ProductViewModel()
             {
-                Id = p.Id,
+                ProductId = p.Id,
                 Name = p.Name,
                 Price = p.Price,
                 Description = p.Description,
@@ -120,7 +120,7 @@ public class ProductService : IProductService
 
         return new ProductViewModel()
         {
-            Id=product.Id,
+            ProductId=product.Id,
             Name = product.Name,
             Category = new CategoryViewModel()
             {
@@ -130,7 +130,7 @@ public class ProductService : IProductService
             },
             Price = product.Price,
             ImageUrl = product.ImageUrl,
-            Description = product.Description
+            Description = product.Description,
         };
     }
 }

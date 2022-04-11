@@ -10,7 +10,7 @@
             @if (ViewBag.CartIsEmpty)
             {
                 <div class="centered">
-                <h3>Количката е празна!</h3>
+                    <h3>Количката е празна!</h3>
                 </div>
             }
             else
@@ -28,23 +28,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form method="post" id="quantityForm">
-                                    @foreach (var product in Model.Products)
-                                    {
+                                @foreach (var product in Model.Products)
+                                {
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
                                                 <img src="@product.ImageUrl" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
-                                                <a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id"><h6>@product.Name</a>
+                                                <a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id"><h6>@product.Name</h6></a>
                                                 <h5>@product.Price лв</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty-2">
-                                                    <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
+                                                    <form method="post" asp-controller="Cart" asp-action="Update" asp-route-cardId="@Model.CartId" id="updateQuantityForm">
+                                                        <input asp-for="Products.FirstOrDefault(p => p.Id == product.Id)" type="text" value="@product.Quantity" >
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
@@ -55,8 +56,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    }
-                                </form>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a asp-controller="Cart" asp-action="Update" onclick="$(this).closest('form').submit()">
+                                <a href="#" onclick="document.getElementById('updateQuantityForm').submit();">
                                     <i class="fa-solid fa-arrow-up"></i> Обнови количката
                                 </a>
                                 @*                            <button class="btn btn-link" type="submit" onclick="document.getElementById('quantityForm').submit();">

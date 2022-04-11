@@ -37,27 +37,29 @@
                         </div>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="col-lg-12">
-                                <h6>Количество :</h6>
-                                <input type="number" min="1" class="form-control text-center w-100" value="1">
-                            </div>
-                            <div class="col-lg-12 mt-3">
-                                <div class="row">
-                                    <div class="col-lg-6 pb-2">
-                                        <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@Model." class="btn btn-danger w-100">
-                                            <i class="fa-solid fa-cart-plus"></i> Добави в количката
-                                        </a>
-                                    </div>
-                                    @if (User.IsInRole("Administrator"))
-                                    {
-                                        <div class="col-lg-6">
-                                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@Model.Id" class="btn btn-info w-100">
-                                                <i class="fa-solid fa-pen-to-square"></i> Редактирай
+                            <form asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@Model.ProductId" id="addProductForm" method="post">
+                                <div class="col-lg-12">
+                                    <h6>Количество :</h6>
+                                    <input asp-for="QuantityToAdd" type="number" min="1" class="form-control text-center w-100" value="1">
+                                </div>
+                                <div class="col-lg-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-lg-6 pb-2">
+                                            <a href="#" onclick="document.getElementById('addProductForm').submit();"  class="btn btn-danger w-100">
+                                                <i class="fa-solid fa-cart-plus"></i> Добави в количката
                                             </a>
                                         </div>
-                                    }
+                                        @if (User.IsInRole("Administrator"))
+                                        {
+                                            <div class="col-lg-6">
+                                                <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@Model.ProductId" class="btn btn-info w-100">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Редактирай
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         }
                     </div>
                 </div>

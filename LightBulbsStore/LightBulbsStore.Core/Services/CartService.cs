@@ -1,6 +1,6 @@
 ﻿using LightBulbsStore.Core.Models.Cart;
-using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models.Cart;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -60,10 +60,10 @@ namespace LightBulbsStore.Core.Services
             return products;
         }
 
-        public async Task<bool> AddProductAsync(string productId, string userId)
+        public async Task<bool> AddProductAsync(AddProductServiceModel model)
         {
             var customer = await repo.All<Customer>()
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == model.UserId)
                 .FirstOrDefaultAsync();
 
             var cart = await repo.All<Cart>()
@@ -72,29 +72,29 @@ namespace LightBulbsStore.Core.Services
                 .FirstOrDefaultAsync();
 
             var product = repo.All<Product>()
-                .Where(p => p.Id == productId)
+                .Where(p => p.Id == model.ProductId)
                 .FirstOrDefault();
 
-            if (product is null)
+            if (product is null || model.Quantity < 1)
             {
                 return false;
             }
 
             var cartProduct = cart.CartProducts
-                .FirstOrDefault(cp => cp.CartId == cart.Id && cp.ProductId == productId);
+                .FirstOrDefault(cp => cp.CartId == cart.Id && cp.ProductId == model.ProductId);
 
             if (cartProduct is null)
             {
                 cart.CartProducts.Add(new CartProduct
                 {
                     CartId = cart.Id,
-                    ProductId = productId,
-                    Quantity = 1
+                    ProductId = model.ProductId,
+                    Quantity = model.Quantity
                 });
             }
             else
             {
-                cartProduct.Quantity += 1;
+                cartProduct.Quantity += model.Quantity;
             }
 
             repo.Update(cart);
@@ -132,16 +132,28 @@ namespace LightBulbsStore.Core.Services
                 .ThenInclude(cp => cp.Product)
                 .FirstOrDefaultAsync();
 
-            foreach (var product in cartViewModel.Products)
+            foreach(var product in cart.CartProducts)
             {
-                var cartProduct = cart.CartProducts
-                    .Where(cp => cp.ProductId == product.Id)
-                    .FirstOrDefault();
+                var quantityToSet = cartViewModel.Products
+                    .FirstOrDefault(p => p.Id == product.ProductId)
+                    .Quantity;
 
-                cartProduct.Quantity = product.Quantity;
 
-                repo.Update(cartProduct);
+                product.Quantity = quantityToSet;
+
+                repo.Update(cart);
             }
+
+            //foreach (var product in cartViewModel.Products)
+            //{
+            //    var cartProduct = cart.CartProducts
+            //        .Where(cp => cp.ProductId == product.Id)
+            //        .FirstOrDefault();
+
+            //    cartProduct.Quantity = product.Quantity;
+
+
+            //}
 
             await repo.SaveChangesAsync();
         }

@@ -2,6 +2,7 @@
 using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,14 @@ namespace LightBulbsStore.Core.Services
     {
         private readonly IBulbsStoreDbRepository repo;
 
-        public UserService(IBulbsStoreDbRepository _repo)
+        private readonly UserManager<User> userManager;
+
+        public UserService(
+            IBulbsStoreDbRepository _repo,
+            UserManager<User> _userManager)
         {
             repo = _repo;
+            userManager = _userManager;
         }
 
         public async Task CreateCustomerAsync(string userId)

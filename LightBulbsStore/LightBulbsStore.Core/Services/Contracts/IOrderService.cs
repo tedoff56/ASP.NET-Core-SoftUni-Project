@@ -9,8 +9,16 @@ namespace LightBulbsStore.Core.Services.Contracts
 {
     public interface IOrderService
     {
-        Task<OrderViewModel> GetOrderDetailsAsync(string userId);
+        Task<OrderDetailsViewModel> GetCartOrderDetailsAsync(string userId);
 
-        Task CreateOrderAsync(OrderViewModel orderModel, string userId);
+        Task CreateOrderAsync(OrderDetailsViewModel orderModel, string userId);
+
+        Task<List<OrderAdminViewModel>> GetAllOrdersAsync();
+
+        Task<OrderAdminViewModel> GetOrderDetailsAsync(string orderId);
+
+        Task Delete(string orderId);
+
+        Task Process(string orderId);
     }
 }

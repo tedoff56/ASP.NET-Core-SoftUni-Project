@@ -4,6 +4,7 @@ using LightBulbsStore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LightBulbsStore.Infrastructure.Migrations
 {
     [DbContext(typeof(BulbsStoreDbContext))]
-    partial class BulbsStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220412144239_OrderDateTime")]
+    partial class OrderDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +40,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.CartProduct", b =>
@@ -66,7 +68,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartProducts", (string)null);
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Category", b =>
@@ -88,7 +90,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Customer", b =>
@@ -129,7 +131,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Order", b =>
@@ -154,7 +156,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.OrderProduct", b =>
@@ -182,7 +184,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderProducts", (string)null);
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Product", b =>
@@ -216,7 +218,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.User", b =>

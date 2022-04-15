@@ -1,0 +1,32 @@
+﻿@model List<OrderAdminViewModel>
+@{
+    int i = 1;
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Имейл</th>
+            <th scope="col">Дата на поръчка</th>
+            <th scope="col">Обща сума</th>
+
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <th scope="row">@(i++)</th>
+                <td>@order.UserEmail</td>
+                <td>@order.OrderDate</td>
+                <td>@order.OrderCost</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="View" asp-route-id="@order.OrderId"><i class="fa-solid fa-eye"></i></a>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Process" asp-route-id="@order.OrderId"><i class="fa-solid fa-check pl-3"></i></a>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@order.OrderId"><i class="fa-solid fa-xmark pl-3"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -40,9 +40,6 @@ namespace LightBulbsStore.Core.Services
 
             var cart = await repo.All<Cart>()
                 .Where(c => c.CustomerId == customer.Id)
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
-                .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync();
 
             var products = cart.CartProducts
@@ -68,7 +65,6 @@ namespace LightBulbsStore.Core.Services
 
             var cart = await repo.All<Cart>()
                 .Where(c => c.CustomerId == customer.Id)
-                .Include(c => c.CartProducts)
                 .FirstOrDefaultAsync();
 
             var product = repo.All<Product>()
@@ -128,8 +124,6 @@ namespace LightBulbsStore.Core.Services
 
             var cart = await repo.All<Cart>()
                 .Where(c => c.Id == cartId)
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
                 .FirstOrDefaultAsync();
 
             foreach(var product in cart.CartProducts)
@@ -171,8 +165,6 @@ namespace LightBulbsStore.Core.Services
         {
             var cart = await repo.All<Cart>()
                 .Where(c => c.Customer.UserId == userId)
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
                 .FirstOrDefaultAsync();
 
             var product = cart.CartProducts

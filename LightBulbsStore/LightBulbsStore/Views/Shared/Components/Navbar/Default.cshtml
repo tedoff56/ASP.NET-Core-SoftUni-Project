@@ -4,12 +4,12 @@
     <ul>
         <li><a href="/">Начало</a></li>
         <li>
-            <a asp-area="/" asp-controller="Product" asp-action="Index">Категории</a>
+            <a asp-area="" asp-controller="Product" asp-action="Index">Категории</a>
             <ul class="dropdown">
                 @foreach (CategoryViewModel category in Model)
                 {
                     <li >
-                        <a class="d-inline-block" asp-area="/" asp-controller="Product" asp-action="Index" asp-route-categoryId="@category.Id">
+                        <a class="d-inline-block" asp-area="" asp-controller="Product" asp-action="Index" asp-route-categoryId="@category.Id">
                             @category.Name
                         </a>
                     </li>

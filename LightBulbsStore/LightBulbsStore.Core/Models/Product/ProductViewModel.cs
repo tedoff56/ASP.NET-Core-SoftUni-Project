@@ -17,4 +17,6 @@ public class ProductViewModel
     public string Description { get; set; }
 
     public int QuantityToAdd { get; set; }
+
+    public int Quantity { get; set; }
 }

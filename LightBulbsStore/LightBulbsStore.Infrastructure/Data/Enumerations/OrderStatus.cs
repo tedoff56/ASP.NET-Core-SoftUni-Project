@@ -4,5 +4,6 @@ public enum OrderStatus
 {
     BeingProcessed = 1,
     Processed = 2,
-    Finished = 3
+    Finished = 3,
+    Deleted = 4
 }

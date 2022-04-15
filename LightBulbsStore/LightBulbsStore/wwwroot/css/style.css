@@ -30,6 +30,11 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+
+.productImage {
+    max-width: 100px
+}
+/*-----------------*/
 html,
 body {
     height: 100%;
@@ -402,10 +407,10 @@ ol {
             list-style: none;
             font-size: 13px;
             color: #111111;
-            padding: 2px 15px;
+            padding: 3px 12px;
             cursor: pointer;
-
         }
+
             .header__top__hover ul li a {
                 text-decoration: none;
                 color: #ffffff;
@@ -3895,6 +3900,7 @@ ol {
         margin-top: 180px;
     }
 }
+
 
 /* Small Device = 320px */
 

@@ -30,15 +30,15 @@ namespace LightBulbsStore.Controllers
 
         private string UserId => userManager.GetUserId(User);
 
-        public async Task<IActionResult> Index(OrderViewModel orderModel)
+        public async Task<IActionResult> Details(OrderDetailsViewModel orderModel)
         {
-            orderModel = await orderService.GetOrderDetailsAsync(UserId);
+            orderModel = await orderService.GetCartOrderDetailsAsync(UserId);
 
             return View(orderModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Place(OrderViewModel orderModel)
+        public async Task<IActionResult> Place(OrderDetailsViewModel orderModel)
         {
             orderModel.Products = (await cartService.GetProductsAsync(UserId)).ToList();
 
@@ -47,9 +47,14 @@ namespace LightBulbsStore.Controllers
             //    return View(nameof(Index));
             //}
 
+            await userService.SetCustomerInfoAsync(UserId, orderModel.Customer);
+
             await orderService.CreateOrderAsync(orderModel, UserId);
 
             return Redirect($"/{nameof(Cart)}/");
         }
+
+
+
     }
 }

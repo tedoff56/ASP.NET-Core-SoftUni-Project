@@ -101,7 +101,7 @@
                                     <ul>
                                         <li><a asp-area="Admin" asp-controller="Product" asp-action="Add"> Добавяне на продукт</a></li>
                                         <li><a asp-area="Admin" asp-controller="Category" asp-action="Add"> Добавяне на категория</a></li>
-                                        <li><a href="#">Поръчки</a></li>
+                                        <li><a asp-area="Admin" asp-controller="Order" asp-action="AllOrders">Поръчки</a></li>
                                     </ul>
                                 </div>
                             }
@@ -114,7 +114,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="/"><img src="~/img/logo.png" alt=""></a>
+                        <a style="width: 200px" href="/"><img src="~/img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">

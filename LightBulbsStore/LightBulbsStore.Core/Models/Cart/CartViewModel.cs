@@ -15,10 +15,10 @@ namespace LightBulbsStore.Core.Models.Cart
 
         public string CartId { get; set; }
 
-        public IEnumerable<CartProductViewModel> Products { get; set; }
-
-        public Dictionary<string, int> ProductIdQuantity { get; set; }
+        public List<CartProductViewModel> Products { get; set; }
 
         public decimal TotalPrice { get; set; }
+
+        public bool IsEmpty => Products.Count() == 0;
     }
 }

@@ -14,19 +14,17 @@ public class Order
 
         Status = OrderStatus.BeingProcessed;
     }
-    
-    [Key]
+
     public string Id { get; set; }
 
     public decimal TotalCost { get; set; }
 
     public OrderStatus Status { get; set; }
 
-    //public string CustomerId { get; set; }
+    public string CustomerId { get; set; }
 
-    //[Required]
-    //[ForeignKey(nameof(CustomerId))]
-    //public Customer Customer { get; set; }
+    [ForeignKey(nameof(CustomerId))]
+    public Customer Customer { get; set; }
 
     public string CustomerFirstName { get; set; }
 
@@ -45,7 +43,7 @@ public class Order
     [MaxLength(DataConstants.CustomerZipCodeMaxLength)]
     public string CustomerZipCode { get; set; }
 
-    public ICollection<OrderProduct> Products { get; set; }
+    public List<OrderProduct> Products { get; set; }
 
     public DateTime OrderDate { get; set; }
 }

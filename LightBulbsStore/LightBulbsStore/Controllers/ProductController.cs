@@ -28,7 +28,7 @@ namespace LightBulbsStore.Controllers
 
         private string UserId => userManager.GetUserId(User);
 
-        public async Task<IActionResult> Index(string categoryId)
+        public async Task<IActionResult> Index(int categoryId)
         {
             var result = await productService.GetAllProductsAsync(categoryId);
 

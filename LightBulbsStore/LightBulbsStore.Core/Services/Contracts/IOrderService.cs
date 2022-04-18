@@ -11,7 +11,7 @@ namespace LightBulbsStore.Core.Services.Contracts
     {
         Task<OrderDetailsViewModel> GetCartOrderDetailsAsync(string userId);
 
-        Task CreateOrderAsync(OrderDetailsViewModel orderModel, string userId);
+        Task<OrderDetailsViewModel> CreateOrderAsync(string userId);
 
         Task<List<OrderAdminViewModel>> GetAllOrdersAsync();
 
@@ -20,5 +20,9 @@ namespace LightBulbsStore.Core.Services.Contracts
         Task Delete(string orderId);
 
         Task Process(string orderId);
+
+        Task<List<OrderProductViewModel>> GetOrderProductsAsync(string orderId);
+
+        Task PlaceOrderAsync(OrderDetailsViewModel orderModel);
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LightBulbsStore.Infrastructure.Migrations
 {
     [DbContext(typeof(BulbsStoreDbContext))]
-    [Migration("20220405065238_InitialMigration")]
+    [Migration("20220416111704_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,42 +29,26 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<decimal>("Total")
+                    b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.CartProduct", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("CartId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
+                    b.HasKey("CartId", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -73,8 +57,11 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
@@ -103,6 +90,10 @@ namespace LightBulbsStore.Infrastructure.Migrations
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
 
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("City")
                         .HasMaxLength(189)
                         .HasColumnType("nvarchar(189)");
@@ -119,17 +110,13 @@ namespace LightBulbsStore.Infrastructure.Migrations
                         .HasMaxLength(16)
                         .HasColumnType("nvarchar(16)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ZipCode")
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CartId");
 
                     b.ToTable("Customers");
                 });
@@ -139,9 +126,41 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CustomerAddress")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
+                    b.Property<string>("CustomerCity")
+                        .IsRequired()
+                        .HasMaxLength(189)
+                        .HasColumnType("nvarchar(189)");
+
+                    b.Property<string>("CustomerFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CustomerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("CustomerLastName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("CustomerPhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("CustomerZipCode")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -158,26 +177,19 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.OrderProduct", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("OrderId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
+                    b.HasKey("OrderId", "ProductId");
 
                     b.HasIndex("ProductId");
 
@@ -189,9 +201,8 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CategoryId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -210,6 +221,9 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -425,27 +439,16 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Cart", b =>
-                {
-                    b.HasOne("LightBulbsStore.Infrastructure.Data.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.CartProduct", b =>
                 {
                     b.HasOne("LightBulbsStore.Infrastructure.Data.Models.Cart", "Cart")
-                        .WithMany("CartProducts")
+                        .WithMany("Products")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LightBulbsStore.Infrastructure.Data.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Carts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -457,13 +460,13 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Customer", b =>
                 {
-                    b.HasOne("LightBulbsStore.Infrastructure.Data.Models.User", "User")
+                    b.HasOne("LightBulbsStore.Infrastructure.Data.Models.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Order", b =>
@@ -486,7 +489,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("LightBulbsStore.Infrastructure.Data.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -569,7 +572,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Cart", b =>
                 {
-                    b.Navigation("CartProducts");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Category", b =>
@@ -585,6 +588,13 @@ namespace LightBulbsStore.Infrastructure.Migrations
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Order", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Product", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

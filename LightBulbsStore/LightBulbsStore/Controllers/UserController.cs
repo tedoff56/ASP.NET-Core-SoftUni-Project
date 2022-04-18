@@ -27,39 +27,39 @@ namespace LightBulbsStore.Controllers
             userService = _userService;
         }
 
-        //[Route("CreateRole")]
-        //public async Task<IActionResult> CreateRole()
-        //{
+        [Route("CreateRole")]
+        public async Task<IActionResult> CreateRole()
+        {
 
-        //    await roleManager.CreateAsync(new IdentityRole()
-        //    {
-        //        Name = "Administrator"
-        //    });
+            await roleManager.CreateAsync(new IdentityRole()
+            {
+                Name = "Administrator"
+            });
 
-        //    await roleManager.CreateAsync(new IdentityRole()
-        //    {
-        //        Name = "Customer"
-        //    });
+            await roleManager.CreateAsync(new IdentityRole()
+            {
+                Name = "Customer"
+            });
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
-        //[Route("SetRole")]
-        //public async Task<IActionResult> SetRole()
-        //{
-        //    var user = userManager.Users
-        //        .Where(u => u.Email == "tedoff.96@gmail.com")
-        //        .SingleOrDefault();
+        [Route("SetRole")]
+        public async Task<IActionResult> SetRole()
+        {
+            var user = userManager.Users
+                .Where(u => u.Email == "tedoff.96@gmail.com")
+                .SingleOrDefault();
 
-        //    if (user is null)
-        //    {
-        //        return BadRequest();
-        //    }
+            if (user is null)
+            {
+                return BadRequest();
+            }
 
-        //    await userManager.AddToRoleAsync(user, "Administrator");
+            await userManager.AddToRoleAsync(user, "Administrator");
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
         [Route("CustomerInfo")]
         public async Task<IActionResult> CustomerInfo()

@@ -30,8 +30,31 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
 
+        builder.Entity<CartProduct>()
+            .HasKey(cp => new
+            {
+                cp.CartId,
+                cp.ProductId
+            });
+
+        builder.Entity<OrderProduct>()
+            .HasKey(op => new
+            {
+                op.OrderId,
+                op.ProductId
+            });
+
+
+        builder.Entity<User>()
+            .Navigation(u => u.Customer)
+            .AutoInclude();
+
+        builder.Entity<Customer>()
+            .Navigation(c => c.Cart)
+            .AutoInclude();
+
         builder.Entity<Cart>()
-            .Navigation(c => c.CartProducts)
+            .Navigation(c => c.Products)
             .AutoInclude();
 
         builder.Entity<CartProduct>()
@@ -42,16 +65,16 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
             .Navigation(p => p.Category)
             .AutoInclude();
 
-        builder.Entity<Customer>()
-            .Navigation(c => c.User)
-            .AutoInclude();
-
         builder.Entity<Order>()
             .Navigation(o => o.Products)
             .AutoInclude();
 
         builder.Entity<Order>()
             .Navigation(o => o.Customer)
+            .AutoInclude();
+
+        builder.Entity<Customer>()
+            .Navigation(c => c.Orders)
             .AutoInclude();
 
         builder

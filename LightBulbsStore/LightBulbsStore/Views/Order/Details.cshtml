@@ -1,65 +1,62 @@
 ﻿@model OrderDetailsViewModel
-@{
-    var customer = Model.Customer;
-}
-
 <div class="container">
     <div class="checkout__form">
-        <form asp-action="Place" method="post" id="orderForm">
+        <form asp-action="Place" method="post" id="finishOrder">
             <div class="row">
                 <div class="col-lg-8 col-md-6">
                     <h6 class="checkout__title">Информация за доставка</h6>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="checkout__input">
+                                @Html.HiddenFor(m => m.OrderId)
                                 <p>
-                                    <label asp-for="@customer.FirstName"></label><span>*</span>
+                                    <label asp-for="@Model.CustomerFirstName"></label><span>*</span>
                                 </p>
-                                <input asp-for="@customer.FirstName" type="text" value="@customer.FirstName">
-                                <span asp-validation-for="@customer.FirstName" class="small text-danger"></span>
+                                <input asp-for="@Model.CustomerFirstName" type="text" value="@Model.CustomerFirstName">
+                                <span asp-validation-for="@Model.CustomerFirstName" class="small text-danger"></span>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="checkout__input">
                                 <p>
-                                    <label asp-for="@customer.LastName"></label><span>*</span>
+                                    <label asp-for="@Model.CustomerLastName"></label><span>*</span>
                                 </p>
-                                <input asp-for="@customer.LastName" type="text" value="@customer.LastName">
-                                <span asp-validation-for="@customer.LastName" class="small text-danger"></span>
+                                <input asp-for="@Model.CustomerLastName" type="text" value="@Model.CustomerLastName">
+                                <span asp-validation-for="@Model.CustomerLastName" class="small text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="checkout__input">
                         <p>
-                            <label asp-for="@customer.Address"></label><span>*</span>
+                            <label asp-for="@Model.CustomerAddress"></label><span>*</span>
                         </p>
-                        <input asp-for="@customer.Address" type="text" value="@customer.Address" class="checkout__input__add">
-                        <span asp-validation-for="@customer.Address" class="small text-danger"></span>
+                        <input asp-for="@Model.CustomerAddress" type="text" value="@Model.CustomerAddress" class="checkout__input__add">
+                        <span asp-validation-for="@Model.CustomerAddress" class="small text-danger"></span>
                     </div>
                     <div class="checkout__input">
                         <p>
-                            <label asp-for="@customer.City"></label><span>*</span>
+                            <label asp-for="@Model.CustomerCity"></label><span>*</span>
                         </p>
-                        <input asp-for="@customer.City" value="@customer.City" type="text">
-                        <span asp-validation-for="@customer.City" class="small text-danger"></span>
+                        <input asp-for="@Model.CustomerCity" value="@Model.CustomerCity" type="text">
+                        <span asp-validation-for="@Model.CustomerCity" class="small text-danger"></span>
                     </div>
                     <div class="checkout__input">
                         <div class="checkout__input">
                             <p>
-                                <label asp-for="@customer.ZipCode"></label><span>*</span>
+                                <label asp-for="@Model.CustomerZipCode"></label><span>*</span>
                             </p>
-                            <input asp-for="@customer.ZipCode" type="text" value="@customer.ZipCode">
-                            <span asp-validation-for="@customer.ZipCode" class="small text-danger"></span>
+                            <input asp-for="@Model.CustomerZipCode" type="text" value="@Model.CustomerZipCode">
+                            <span asp-validation-for="@Model.CustomerZipCode" class="small text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="checkout__input">
                                 <p>
-                                    <label asp-for="@customer.PhoneNumber"></label><span>*</span>
+                                    <label asp-for="@Model.CustomerPhoneNumber"></label><span>*</span>
                                 </p>
-                                <input asp-for="@customer.PhoneNumber" type="text" value="@customer.PhoneNumber">
-                                <span asp-validation-for="@customer.PhoneNumber" class="small text-danger"></span>
+                                <input asp-for="@Model.CustomerPhoneNumber" type="text" value="@Model.CustomerPhoneNumber">
+                                <span asp-validation-for="@Model.CustomerPhoneNumber" class="small text-danger"></span>
                             </div>
                         </div>
 
@@ -84,18 +81,16 @@
                         <ul class="checkout__total__all">
                             <li>Общо <span>@(Model.TotalCost)лв.</span></li>
                         </ul>
-@*                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua.
-                        </p>*@
-                        <div class="checkout__input__checkbox">
+@*                        <div class="checkout__input__checkbox">
                             <label for="payment">
                                 Наложен платеж
                                 <input type="checkbox" id="payment">
                                 <span class="checkmark"></span>
                             </label>
-                        </div>
-                        <input form="orderForm" type="submit" class="site-btn" value="Завърши"/>
+                        </div>*@
+                        <a href="#" onclick="document.getElementById('finishOrder').submit();" type="submit" class="site-btn">
+                            Завърши
+                        </a>
                     </div>
                 </div>
             </div>

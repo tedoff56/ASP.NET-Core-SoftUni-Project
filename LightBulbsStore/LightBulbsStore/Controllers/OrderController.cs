@@ -1,4 +1,5 @@
-﻿using LightBulbsStore.Core.Models.Order;
+﻿using LightBulbsStore.Core.Models.Cart;
+using LightBulbsStore.Core.Models.Order;
 using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,8 @@ namespace LightBulbsStore.Controllers
 {
     public class OrderController : BaseController
     {
+        private readonly List<OrderProductViewModel> orderProducts;
+
         private readonly UserManager<User> userManager;
 
         private readonly IOrderService orderService;
@@ -26,13 +29,16 @@ namespace LightBulbsStore.Controllers
             orderService = _orderServic;
             cartService = _cartService;
             userService = _userService;
+
         }
 
         private string UserId => userManager.GetUserId(User);
 
-        public async Task<IActionResult> Details(OrderDetailsViewModel orderModel)
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> Details()
         {
-            orderModel = await orderService.GetCartOrderDetailsAsync(UserId);
+            var orderModel = await orderService.CreateOrderAsync(UserId);
 
             return View(orderModel);
         }
@@ -40,16 +46,14 @@ namespace LightBulbsStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Place(OrderDetailsViewModel orderModel)
         {
-            orderModel.Products = (await cartService.GetProductsAsync(UserId)).ToList();
+            orderModel.Products = await orderService.GetOrderProductsAsync(orderModel.OrderId);
+            ModelState.Remove("Products");
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(Details), orderModel);
+            }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(nameof(Index));
-            //}
-
-            await userService.SetCustomerInfoAsync(UserId, orderModel.Customer);
-
-            await orderService.CreateOrderAsync(orderModel, UserId);
+            await orderService.PlaceOrderAsync(orderModel);
 
             return Redirect($"/{nameof(Cart)}/");
         }

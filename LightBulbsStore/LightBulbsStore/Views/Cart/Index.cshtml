@@ -7,7 +7,7 @@
 <section class="shopping-cart spad">
     <div class="container">
         <div class="row">
-            @if (ViewBag.CartIsEmpty)
+            @if (@Model.IsEmpty)
             {
                 <div class="centered">
                     <h3>Количката е празна!</h3>
@@ -28,37 +28,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form method="post" asp-controller="Cart" asp-action="Update" asp-route-cardId="@Model.CartId" id="updateQuantityForm">
-                                    @foreach (var product in Model.Products)
-                                    {
+
+                                @foreach (var product in Model.Products)
+                                {
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
                                                 <img src="@product.ImageUrl" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
-                                                <a asp-controller="Product" asp-action="Info" asp-route-productId="@product.Id"><h6>@product.Name</h6></a>
+                                                <a asp-controller="Product" asp-action="Info" asp-route-productId="@product.ProductId"><h6>@product.Name</h6></a>
                                                 <h5>@product.Price лв</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty-2">
-
-                                                    <input name="quantity[@product.Id]" asp-for="Products" type="text" value="@product.Quantity">
-
+                                                    <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="cart__price">@product.TotalPrice лв</td>
                                         <td class="cart__close">
-                                            <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.Id">
+                                            <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.ProductId">
                                                 <i class="fa fa-close"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    }
-                                </form>
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -86,7 +83,9 @@
                         <ul>
                             <li>Total <span>@Model.TotalPrice лв</span></li>
                         </ul>
-                        <a asp-controller="Order" asp-action="Details" class="primary-btn">Поръчай</a>
+                        <form asp-controller="Order" asp-action="Details" method="post" id="createOrderForm">
+                        </form>
+                        <a href="#" onclick="document.getElementById('createOrderForm').submit();" class="primary-btn">Поръчай</a>
                     </div>
                 </div>
             }

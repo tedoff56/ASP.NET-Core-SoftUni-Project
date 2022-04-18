@@ -41,7 +41,7 @@ public class ProductEditFormViewModel
     
     [Required]
     [Display(Name = "Категория")]
-    public string CategoryId { get; init; }
+    public int CategoryId { get; init; }
 
     public IEnumerable<CategoryViewModel> Categories { get; set; }
 }

@@ -79,7 +79,7 @@ public class ProductService : IProductService
         return true;
     }
 
-    public async Task<IEnumerable<ProductViewModel>> GetAllProductsAsync(string categoryId = null)
+    public async Task<List<ProductViewModel>> GetAllProductsAsync(int categoryId = 0)
     {
         var products = await repo.All<Product>()
             .Select(p => new ProductViewModel()
@@ -99,12 +99,12 @@ public class ProductService : IProductService
             })
             .ToListAsync();
 
-        if (categoryId is null)
+        if (categoryId is 0)
         {
             return products;
         }
 
-        return products.Where(p => p.Category.Id == categoryId);
+        return products.Where(p => p.Category.Id == categoryId).ToList();
     }
 
     public async Task<ProductViewModel> GetProductAsync(string productId)

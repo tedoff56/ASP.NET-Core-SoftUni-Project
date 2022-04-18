@@ -25,7 +25,7 @@ namespace LightBulbsStore.ViewComponents
         {
             var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var model = new LayoutViewModel 
+            var model = new LayoutViewModel()
             { 
                 CartProductsCount = cartService.TotalCartItemsAsync(userId).Result,
                 CartTotalPrice = cartService.TotalPrice(userId).Result,

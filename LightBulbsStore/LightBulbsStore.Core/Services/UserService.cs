@@ -12,60 +12,38 @@ namespace LightBulbsStore.Core.Services
     {
         private readonly IBulbsStoreDbRepository repo;
 
-        private readonly UserManager<User> userManager;
 
         public UserService(
-            IBulbsStoreDbRepository _repo,
-            UserManager<User> _userManager)
+            IBulbsStoreDbRepository _repo)
         {
             repo = _repo;
-            userManager = _userManager;
         }
 
         public async Task CreateCustomerAsync(string userId)
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-            if (user is null)
+            user.Customer = new Customer()
             {
-                return;
-            }
-
-            var customer = new Customer()
-            {
-                UserId = userId
+                Cart = new Cart()
             };
 
-            await repo.AddAsync(customer);
-
-            var cart = new Cart()
-            {
-                CustomerId = customer.Id
-            };
-
-            await repo.AddAsync(cart);
-
+            repo.Update(user);
             await repo.SaveChangesAsync();
         }
 
         public async Task<CustomerInfoViewModel> GetCustomerInfoAsync(string userId)
         {
-            var customer = await repo.All<Customer>()
-                .SingleOrDefaultAsync(c => c.UserId == userId);
-
-            if (customer is null)
-            {
-                return new CustomerInfoViewModel();
-            }
+            var user = await repo.GetByIdAsync<User>(userId);
 
             return new CustomerInfoViewModel()
             {
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                PhoneNumber = customer.PhoneNumber,
-                City = customer.City,
-                Address = customer.Address,
-                ZipCode = customer.ZipCode
+                FirstName = user.Customer.FirstName,
+                LastName = user.Customer.LastName,
+                PhoneNumber = user.Customer.PhoneNumber,
+                City = user.Customer.City,
+                Address = user.Customer.Address,
+                ZipCode = user.Customer.ZipCode
             };
         }
 
@@ -75,17 +53,14 @@ namespace LightBulbsStore.Core.Services
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-            var customer = await repo.All<Customer>()
-                .FirstOrDefaultAsync(c => c.UserId == userId);
+            user.Customer.FirstName = model.FirstName;
+            user.Customer.LastName = model.LastName;
+            user.Customer.PhoneNumber = model.PhoneNumber;
+            user.Customer.City = model.City;
+            user.Customer.Address = model.Address;
+            user.Customer.ZipCode = model.ZipCode;
 
-            customer.FirstName = model.FirstName;
-            customer.LastName = model.LastName;
-            customer.PhoneNumber = model.PhoneNumber;
-            customer.City = model.City;
-            customer.Address = model.Address;
-            customer.ZipCode = model.ZipCode;
-
-            repo.Update(customer);
+            repo.Update(user);
             await repo.SaveChangesAsync();
         }
 

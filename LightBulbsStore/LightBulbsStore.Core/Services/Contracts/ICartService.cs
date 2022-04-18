@@ -5,7 +5,7 @@ namespace LightBulbsStore.Core.Services.Contracts
 {
     public interface ICartService
     {
-        Task<IEnumerable<CartProductViewModel>> GetProductsAsync(string userId);
+        Task<List<CartProductViewModel>> GetCartProductsAsync(string userId);
 
         Task<bool> AddProductAsync(AddProductServiceModel model);
 
@@ -15,14 +15,16 @@ namespace LightBulbsStore.Core.Services.Contracts
 
         Task UpdateCartAsync(CartViewModel cartViewModel, string userId);
 
-        Task<string> GetCartIdAsync(string userId);
-
         Task RemoveProductAsync(string userId, string productId);
 
         Task UpdateAsync(CartViewModel model);
 
-        Task EmptyCartAsync(string userId);
+        Task EmptyCartAsync(string cartId);
 
         Task<bool> IsEmpty(string userId);
+
+        Task<string> GetCartIdAsync(string userId);
+
+        Task<CartViewModel> GetCartModelAsync(string userId);
     }
 }

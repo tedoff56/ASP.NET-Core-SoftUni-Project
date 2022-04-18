@@ -32,58 +32,59 @@ namespace LightBulbsStore.Core.Services
             userManager = _userManager;
         }
 
-        public async Task<IEnumerable<CartProductViewModel>> GetProductsAsync(string userId)
+        public async Task<List<CartProductViewModel>> GetCartProductsAsync(string userId)
         {
-            var customer = await repo.All<Customer>()
-                .Where(c => c.UserId == userId)
-                .FirstOrDefaultAsync();
+            var user = await repo.GetByIdAsync<User>(userId);
 
-            var cart = await repo.All<Cart>()
-                .Where(c => c.CustomerId == customer.Id)
-                .FirstOrDefaultAsync();
-
-            var products = cart.CartProducts
+            var products = user.Customer.Cart.Products
                 .Where(p => p.Quantity > 0)
                 .Select(p => new CartProductViewModel()
                 {
-                    Id = p.ProductId,
+                    ProductId = p.ProductId,
                     Name = p.Product.Name,
                     ImageUrl = p.Product.ImageUrl,
                     CategoryName = p.Product.Category.Name,
                     Price = p.Product.Price,
                     Quantity = p.Quantity
-                });
+                })
+                .ToList();
 
             return products;
         }
 
+        public async Task<CartViewModel> GetCartModelAsync(string userId)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            return new CartViewModel()
+            {
+                Products = await GetCartProductsAsync(userId),
+                TotalPrice = user.Customer.Cart.TotalPrice
+            };
+        }
+
         public async Task<bool> AddProductAsync(AddProductServiceModel model)
         {
-            var customer = await repo.All<Customer>()
-                .Where(c => c.UserId == model.UserId)
-                .FirstOrDefaultAsync();
 
-            var cart = await repo.All<Cart>()
-                .Where(c => c.CustomerId == customer.Id)
-                .FirstOrDefaultAsync();
+            var user = await repo.All<User>()
+                .FirstOrDefaultAsync(u => u.Id == model.UserId);
 
-            var product = repo.All<Product>()
-                .Where(p => p.Id == model.ProductId)
-                .FirstOrDefault();
+            var productToAdd = await repo.All<Product>()
+                .FirstOrDefaultAsync(p => p.Id == model.ProductId);
 
-            if (product is null || model.Quantity < 1)
+
+            if (productToAdd is null || model.Quantity < 1)
             {
                 return false;
             }
 
-            var cartProduct = cart.CartProducts
-                .FirstOrDefault(cp => cp.CartId == cart.Id && cp.ProductId == model.ProductId);
+            var cartProduct = user.Customer.Cart.Products
+                .FirstOrDefault(cp => cp.ProductId == model.ProductId);
 
             if (cartProduct is null)
             {
-                cart.CartProducts.Add(new CartProduct
+                user.Customer.Cart.Products.Add(new CartProduct
                 {
-                    CartId = cart.Id,
                     ProductId = model.ProductId,
                     Quantity = model.Quantity
                 });
@@ -93,7 +94,8 @@ namespace LightBulbsStore.Core.Services
                 cartProduct.Quantity += model.Quantity;
             }
 
-            repo.Update(cart);
+            user.Customer.Cart.TotalPrice += productToAdd.Price * model.Quantity;
+            repo.Update(user);
             await repo.SaveChangesAsync();
 
             return true;
@@ -101,79 +103,56 @@ namespace LightBulbsStore.Core.Services
 
         public async Task<int> TotalCartItemsAsync(string userId)
         {
-            var products = await GetProductsAsync(userId);
+            var products = await GetCartProductsAsync(userId);
 
-            return products.Select(p => p.Quantity).Sum();
+            return products.Sum(p => p.Quantity);
         }
 
         public async Task<decimal> TotalPrice(string userId)
         {
-            var products = await GetProductsAsync(userId);
+            var products = await GetCartProductsAsync(userId);
 
             return products.Sum(p => p.Quantity * p.Price);
         }
 
         public async Task UpdateCartAsync(CartViewModel cartViewModel, string userId)
         {
-            var cartId = await GetCartIdAsync(userId);
+            var user = await repo.GetByIdAsync<User>(userId);
 
-            if (cartId == null)
-            {
-                return;
-            }
+            var products = user.Customer.Cart.Products;
 
-            var cart = await repo.All<Cart>()
-                .Where(c => c.Id == cartId)
-                .FirstOrDefaultAsync();
-
-            foreach(var product in cart.CartProducts)
+            foreach(var product in products)
             {
                 var quantityToSet = cartViewModel.Products
-                    .FirstOrDefault(p => p.Id == product.ProductId)
+                    .FirstOrDefault(p => p.ProductId == product.ProductId)
                     .Quantity;
 
 
                 product.Quantity = quantityToSet;
 
-                repo.Update(cart);
+                repo.Update(user);
             }
-
-            //foreach (var product in cartViewModel.Products)
-            //{
-            //    var cartProduct = cart.CartProducts
-            //        .Where(cp => cp.ProductId == product.Id)
-            //        .FirstOrDefault();
-
-            //    cartProduct.Quantity = product.Quantity;
-
-
-            //}
 
             await repo.SaveChangesAsync();
         }
 
-        public async Task<string> GetCartIdAsync(string userId)
-        {
-            var cart = await repo.All<Cart>()
-                .Where(c => c.Customer.UserId == userId)
-                .FirstOrDefaultAsync();
-
-            return cart.Id;
-        }
-
         public async Task RemoveProductAsync(string userId, string productId)
         {
-            var cart = await repo.All<Cart>()
-                .Where(c => c.Customer.UserId == userId)
-                .FirstOrDefaultAsync();
 
-            var product = cart.CartProducts
-                .Where(cp => cp.ProductId == productId)
-                .FirstOrDefault();
+            var user = await repo.GetByIdAsync<User>(userId);
 
-            product.Quantity = 0;
+            var cartProduct = user.Customer.Cart.Products
+                .FirstOrDefault(cp => cp.ProductId == productId);
 
-            repo.Update(product);
+            if(cartProduct == null)
+            {
+                return;
+            }
+
+            user.Customer.Cart.TotalPrice -= cartProduct.Quantity * cartProduct.Product.Price;
+            cartProduct.Quantity = 0;
+
+            repo.Update(user);
             await repo.SaveChangesAsync();
         }
 
@@ -183,8 +162,8 @@ namespace LightBulbsStore.Core.Services
 
             foreach (var product in model.Products)
             {
-                var cartProduct = cart.CartProducts
-                    .FirstOrDefault(cp => cp.ProductId == product.Id);
+                var cartProduct = cart.Products
+                    .FirstOrDefault(cp => cp.ProductId == product.ProductId);
 
                 cartProduct.Quantity = product.Quantity;
 
@@ -195,15 +174,11 @@ namespace LightBulbsStore.Core.Services
 
         }
 
-        public async Task EmptyCartAsync(string userId)
+        public async Task EmptyCartAsync(string cartId)
         {
-            var cart = await repo.All<Cart>()
-                .Where(c => c.Customer.UserId == userId)
-                .Include(c => c.CartProducts)
-                .ThenInclude(cp => cp.Product)
-                .FirstOrDefaultAsync();
+            var cart = await repo.GetByIdAsync<Cart>(cartId);
 
-            var cartProducts = cart.CartProducts
+            var cartProducts = cart.Products
                 .Where(cp => cp.Quantity > 0);
 
             foreach (var product in cartProducts)
@@ -211,15 +186,21 @@ namespace LightBulbsStore.Core.Services
                 product.Quantity = 0;
             }
 
+            cart.TotalPrice = 0;
             repo.Update(cart);
             await repo.SaveChangesAsync();
         }
 
         public async Task<bool> IsEmpty(string userId)
         {
-            var products = await GetProductsAsync(userId);
+            var products = await GetCartProductsAsync(userId);
 
             return products is null || !products.Any() ? true : false;
+        }
+
+        public async Task<string> GetCartIdAsync(string userId)
+        {
+            return (await repo.GetByIdAsync<User>(userId)).Customer.Cart.Id;
         }
     }
 }

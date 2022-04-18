@@ -34,17 +34,11 @@ public class Customer
     [MaxLength(DataConstants.CustomerZipCodeMaxLength)]
     public string? ZipCode { get; set; }
 
-    [Required]
-    public string UserId { get; set; }
+    public string? CartId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
-    public User User { get; set; }
+    [ForeignKey(nameof(CartId))]
+    public Cart Cart { get; set; }
 
-    //public string CartId { get; set; }
-
-    //[ForeignKey(nameof(CartId))]
-    //public Cart Cart { get; set; }
-
-    public ICollection<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; }
     
 }

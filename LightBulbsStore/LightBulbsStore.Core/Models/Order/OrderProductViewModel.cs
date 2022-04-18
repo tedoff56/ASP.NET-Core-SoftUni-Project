@@ -1,14 +1,12 @@
-﻿using LightBulbsStore.Core.Models.Category;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LightBulbsStore.Core.Models.Cart
+namespace LightBulbsStore.Core.Models.Order
 {
-    public class CartProductViewModel
+    public class OrderProductViewModel
     {
         public string ProductId { get; set; }
 
@@ -20,10 +18,9 @@ namespace LightBulbsStore.Core.Models.Cart
 
         public decimal Price { get; set; }
 
-        [Range(0, 100)]
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => Price * Quantity;
+        public decimal TotalProductPrice { get; set; }
 
     }
 }

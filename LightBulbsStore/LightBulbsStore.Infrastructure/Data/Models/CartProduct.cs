@@ -11,16 +11,11 @@ public class CartProduct
         Quantity = 0;
     }
 
-    [Key]
-    public int Id { get; set; }
-
-    [Required]
     public string CartId { get; set; }
 
     [ForeignKey(nameof(CartId))]
     public Cart Cart { get; set; }
 
-    [Required]
     public string ProductId { get; set; }
 
     [ForeignKey(nameof(ProductId))]

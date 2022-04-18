@@ -30,35 +30,23 @@ namespace LightBulbsStore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.CartIsEmpty = await cartService.IsEmpty(UserId);
+            var cartModel = await cartService.GetCartModelAsync(UserId);
 
-            var cartProducts = await cartService.GetProductsAsync(UserId);
-
-            var cartViewModel = new CartViewModel()
-            {
-                CartId = await cartService.GetCartIdAsync(UserId),
-                Products = cartProducts,
-                TotalPrice = cartProducts.Sum(p => p.Quantity * p.Price)
-            };
-
-            return View(cartViewModel);
+            return View(cartModel);
         }
 
-        [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> AddProduct(string productId, ProductViewModel model)
+        public async Task<IActionResult> AddProduct(ProductViewModel model, [FromForm] string productId)
         {
 
             await cartService.AddProductAsync(new AddProductServiceModel()
             {
-                ProductId = productId,
+                ProductId = model.ProductId is null ? productId : model.ProductId,
                 UserId = this.UserId,
                 Quantity= model.QuantityToAdd < 1 ? 1 : model.QuantityToAdd,
             });
 
-            return RedirectToAction(nameof(Index),
-                nameof(CartController).Replace("Controller", string.Empty),
-                cartService.GetCartIdAsync(UserId));
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> RemoveProduct(string productId)
@@ -70,9 +58,8 @@ namespace LightBulbsStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(string cardId, CartViewModel model)
+        public async Task<IActionResult> Update(CartViewModel model)
         {
-            model.CartId = cardId;
             await cartService.UpdateAsync(model);
 
             return RedirectToAction(nameof(Index));

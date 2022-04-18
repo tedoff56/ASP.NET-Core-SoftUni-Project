@@ -7,7 +7,5 @@ namespace LightBulbsStore.Infrastructure.Data.Models;
 public class User : IdentityUser
 {
     public string? CustomerId { get; set; }
-
-    [ForeignKey(nameof(CustomerId))]
-    public Customer? Customer { get; set; }
+    public Customer Customer { get; set; }
 }

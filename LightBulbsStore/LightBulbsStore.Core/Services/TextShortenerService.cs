@@ -15,6 +15,7 @@ public class TextShortenerService : ITextShortenerService
             {
                 return sb.ToString().Substring(0, length) + "...";
             }
+
             sb.Append(text[i]);
 
             if (i % 34 == 0)

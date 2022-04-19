@@ -9,6 +9,7 @@
                         <div class="col-lg-6">
                             <div class="checkout__input">
                                 @Html.HiddenFor(m => m.OrderId)
+                                @Html.HiddenFor(m => m.TotalCost)
                                 <p>
                                     <label asp-for="@Model.CustomerFirstName"></label><span>*</span>
                                 </p>

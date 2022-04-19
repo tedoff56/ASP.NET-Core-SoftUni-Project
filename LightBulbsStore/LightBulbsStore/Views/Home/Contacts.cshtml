@@ -1,0 +1,44 @@
+﻿@model ContactFormViewModel
+@{
+    ViewData["Title"] = "Контакти";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- CHANGE THE URL HERE -->
+            <form asp-controller="Home" asp-action="Contacts" method="post">
+                <h3 style="text-align: center;">Свържи се с нас</h3>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <input asp-for="Email" type="email" class="form-control" placeholder="****@@gmail.com" value="@User.Identity.Name">
+                    }
+                    else
+                    {
+                        <input asp-for="Email" type="email" class="form-control" placeholder="****@@gmail.com">
+                    }
+                    <span asp-validation-for="Email"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="Subject"></label>
+                    <input asp-for="Subject" type="text" class="form-control" placeholder="Относно">
+                    <span asp-validation-for="Subject"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message"></label>
+                    <textarea asp-for="Message" class="form-control" rows="5" placeholder="Въведи съобщение"></textarea>
+                    <span asp-validation-for="Message"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary float-right mb-3">Изпрати</button>
+            </form>
+        </div>
+    </div>
+</div>

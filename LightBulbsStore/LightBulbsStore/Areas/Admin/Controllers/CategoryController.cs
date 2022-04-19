@@ -30,5 +30,6 @@ namespace LightBulbsStore.Areas.Admin.Controllers
 
             return this.Redirect("~/Product/");
         }
+
     }
 }

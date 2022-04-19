@@ -81,7 +81,7 @@
                     <div class="cart__total">
                         <h6>Общо в количката</h6>
                         <ul>
-                            <li>Total <span>@Model.TotalPrice лв</span></li>
+                            <li>Total <span><label asp-for="@Model.TotalPrice">@Model.TotalPrice лв.</label></span></li>
                         </ul>
                         <form asp-controller="Order" asp-action="Details" method="post" id="createOrderForm">
                         </form>

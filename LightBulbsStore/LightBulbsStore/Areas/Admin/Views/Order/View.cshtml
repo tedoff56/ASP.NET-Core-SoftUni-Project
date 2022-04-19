@@ -4,22 +4,6 @@
 }
 @model OrderAdminViewModel
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css" />
-
-
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -110,6 +94,8 @@
                                                 <th scope="col">Продукт</th>
                                                 <th scope="col">Име</th>
                                                 <th scope="col">Количество</th>
+                                                <th scope="col">Цена на брой</th>
+                                                <th scope="col">Цена общо</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -117,9 +103,11 @@
                                             {
                                                 <tr>
                                                     <th scope="row">@(i++)</th>
-                                                    <td><img class="productImage"src="@product.ImageUrl"></td>
-                                                    <td>@product.Name</td>
+                                                    <td><img class="productImage" src="@product.ImageUrl"></td>
+                                                    <td><a asp-area="" asp-controller="Product" asp-action="Info" asp-route-productId="@product.ProductId">@product.Name</a></td>
                                                     <td>@product.Quantity</td>
+                                                    <td>@product.Price</td>
+                                                    <td>@(product.Price * product.Quantity)</td>
                                                 </tr>
                                             }
                                         </tbody>

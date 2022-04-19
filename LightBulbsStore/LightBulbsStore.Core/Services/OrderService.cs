@@ -81,12 +81,12 @@ namespace LightBulbsStore.Core.Services
                 TotalCost = cartProducts.Sum(p => p.Quantity * p.Price),
                 Status = OrderStatus.NotFinished,
                 CustomerId = user.Customer.Id,
-                CustomerFirstName = user.Customer.FirstName,
-                CustomerLastName = user.Customer.LastName,
-                CustomerAddress = user.Customer.Address,
-                CustomerCity = user.Customer.City,
-                CustomerZipCode = user.Customer.ZipCode,
-                CustomerPhoneNumber = user.Customer.PhoneNumber,
+                CustomerFirstName = user.Customer.FirstName is null ? string.Empty : user.Customer.FirstName,
+                CustomerLastName = user.Customer.LastName is null ? string.Empty : user.Customer.LastName,
+                CustomerAddress = user.Customer.Address is null ? string.Empty : user.Customer.Address,
+                CustomerCity = user.Customer.City is null ? string.Empty : user.Customer.City,
+                CustomerZipCode = user.Customer.ZipCode is null ? string.Empty : user.Customer.ZipCode,
+                CustomerPhoneNumber = user.Customer.PhoneNumber is null ? string.Empty : user.Customer.PhoneNumber,
                 OrderDate = DateTime.UtcNow,
                 Products = cartProducts
                     .Select(p => new OrderProduct()
@@ -221,6 +221,7 @@ namespace LightBulbsStore.Core.Services
                     Products = products
                                 .Select(p => new ProductViewModel()
                                 {
+                                    ProductId = p.Product.Id,
                                     Name = p.Product.Name,
                                     Price = p.Product.Price,
                                     ImageUrl = p.Product.ImageUrl,

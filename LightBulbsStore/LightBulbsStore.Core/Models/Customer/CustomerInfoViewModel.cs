@@ -32,7 +32,7 @@ namespace LightBulbsStore.Core.Models.Customer
 
         [Required]
         [Display(Name = "Пощенски код")]
-        [RegularExpression(@"\d{4}")]
+        [RegularExpression(@"\d{4}", ErrorMessage = @"{0} трябва да съдържа точно 4 цифри")]
         public string ZipCode { get; set; }
     }
 }

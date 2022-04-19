@@ -273,3 +273,6 @@ C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\Lig
 C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\obj\Debug\net6.0\LightBulbsStore.pdb
 C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\obj\Debug\net6.0\LightBulbsStore.genruntimeconfig.cache
 C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\obj\Debug\net6.0\ref\LightBulbsStore.dll
+C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\bin\Debug\net6.0\MailKit.dll
+C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\bin\Debug\net6.0\MimeKit.dll
+C:\Users\tedof\Documents\GitHub\ASP.NET-Core-SoftUni-Project\LightBulbsStore\LightBulbsStore\bin\Debug\net6.0\BouncyCastle.Crypto.dll

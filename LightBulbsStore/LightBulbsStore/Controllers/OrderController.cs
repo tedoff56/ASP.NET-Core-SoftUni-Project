@@ -48,6 +48,7 @@ namespace LightBulbsStore.Controllers
         {
             orderModel.Products = await orderService.GetOrderProductsAsync(orderModel.OrderId);
             ModelState.Remove("Products");
+
             if (!ModelState.IsValid)
             {
                 return View(nameof(Details), orderModel);

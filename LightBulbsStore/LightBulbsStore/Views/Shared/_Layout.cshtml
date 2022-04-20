@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            <p>Безплатна доставка при поръчка на 99лв.</p>
+                            <p>Безплатна доставка при поръчка над 99лв.</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
@@ -214,8 +214,8 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
+            <form asp-controller="Product" asp-action="Search" class="search-model-form">
+                <input type="text" name="text" id="search-input" placeholder="Търси тук.....">
             </form>
         </div>
     </div>

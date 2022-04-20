@@ -13,11 +13,9 @@ namespace LightBulbsStore.Core.Services.Contracts
 
         Task<decimal> TotalPrice(string userId);
 
-        Task UpdateCartAsync(CartViewModel cartViewModel, string userId);
-
         Task RemoveProductAsync(string userId, string productId);
 
-        Task UpdateAsync(CartViewModel model);
+        Task UpdateAsync(UpdateProductQuantityServiceModel model);
 
         Task EmptyCartAsync(string cartId);
 

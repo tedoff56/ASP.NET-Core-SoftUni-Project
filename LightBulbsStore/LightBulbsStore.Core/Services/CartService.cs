@@ -94,7 +94,7 @@ namespace LightBulbsStore.Core.Services
                 cartProduct.Quantity += model.Quantity;
             }
 
-            user.Customer.Cart.TotalPrice += productToAdd.Price * model.Quantity;
+            //user.Customer.Cart.TotalPrice += productToAdd.Price * model.Quantity;
             repo.Update(user);
             await repo.SaveChangesAsync();
 
@@ -115,27 +115,6 @@ namespace LightBulbsStore.Core.Services
             return products.Sum(p => p.Quantity * p.Price);
         }
 
-        public async Task UpdateCartAsync(CartViewModel cartViewModel, string userId)
-        {
-            var user = await repo.GetByIdAsync<User>(userId);
-
-            var products = user.Customer.Cart.Products;
-
-            foreach(var product in products)
-            {
-                var quantityToSet = cartViewModel.Products
-                    .FirstOrDefault(p => p.ProductId == product.ProductId)
-                    .Quantity;
-
-
-                product.Quantity = quantityToSet;
-
-                repo.Update(user);
-            }
-
-            await repo.SaveChangesAsync();
-        }
-
         public async Task RemoveProductAsync(string userId, string productId)
         {
 
@@ -149,29 +128,33 @@ namespace LightBulbsStore.Core.Services
                 return;
             }
 
-            user.Customer.Cart.TotalPrice -= cartProduct.Quantity * cartProduct.Product.Price;
+            //user.Customer.Cart.TotalPrice -= cartProduct.Quantity * cartProduct.Product.Price;
             cartProduct.Quantity = 0;
 
             repo.Update(user);
             await repo.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(CartViewModel model)
+        public async Task UpdateAsync(UpdateProductQuantityServiceModel model)
         {
-            var cart = await repo.GetByIdAsync<Cart>(model.CartId);
-
-            foreach (var product in model.Products)
+            if (model.Quantity == 0)
             {
-                var cartProduct = cart.Products
-                    .FirstOrDefault(cp => cp.ProductId == product.ProductId);
-
-                cartProduct.Quantity = product.Quantity;
-
-                repo.Update(cartProduct);
+                return;
             }
 
-            await repo.SaveChangesAsync();
+            var user = await repo.GetByIdAsync<User>(model.UserId);
 
+            var product = user.Customer.Cart.Products.FirstOrDefault(cp => cp.Product.Id == model.ProductId);
+
+            if(product is null)
+            {
+                return;
+            }      
+
+            product.Quantity = model.Quantity;
+
+            repo.Update(user);
+            await repo.SaveChangesAsync();
         }
 
         public async Task EmptyCartAsync(string cartId)
@@ -186,7 +169,7 @@ namespace LightBulbsStore.Core.Services
                 product.Quantity = 0;
             }
 
-            cart.TotalPrice = 0;
+            //cart.TotalPrice = 0;
             repo.Update(cart);
             await repo.SaveChangesAsync();
         }
@@ -202,5 +185,6 @@ namespace LightBulbsStore.Core.Services
         {
             return (await repo.GetByIdAsync<User>(userId)).Customer.Cart.Id;
         }
+
     }
 }

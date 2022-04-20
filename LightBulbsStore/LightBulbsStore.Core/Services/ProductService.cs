@@ -111,7 +111,7 @@ public class ProductService : IProductService
     {
         var product = await repo.GetByIdAsync<Product>(productId);
 
-        if(product is null)
+        if (product is null)
         {
             return null;
         }
@@ -120,7 +120,7 @@ public class ProductService : IProductService
 
         return new ProductViewModel()
         {
-            ProductId=product.Id,
+            ProductId = product.Id,
             Name = product.Name,
             Category = new CategoryViewModel()
             {
@@ -132,5 +132,15 @@ public class ProductService : IProductService
             ImageUrl = product.ImageUrl,
             Description = product.Description,
         };
+    }
+
+    public async Task<List<ProductViewModel>> SearchForProduct(string text)
+    {
+        var result = await GetAllProductsAsync(0);
+
+
+        return result
+            .Where(p => p.Name.ToLower().Contains(text.ToLower()))
+            .ToList();
     }
 }

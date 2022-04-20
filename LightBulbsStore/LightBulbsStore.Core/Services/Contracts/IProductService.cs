@@ -14,4 +14,6 @@ public interface IProductService
     Task<bool> EditProductAsync(ProductEditFormViewModel model);
 
     Task<ProductViewModel> GetProductAsync(string productId);
+
+    Task<List<ProductViewModel>> SearchForProduct(string text);
 }

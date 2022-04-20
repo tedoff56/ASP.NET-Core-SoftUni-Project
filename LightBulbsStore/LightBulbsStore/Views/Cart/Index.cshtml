@@ -28,7 +28,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach (var product in Model.Products)
                                 {
                                     <tr>
@@ -41,14 +40,27 @@
                                                 <h5>@product.Price лв</h5>
                                             </div>
                                         </td>
+
+                                        <form asp-controller="Cart" asp-action="Update" method="post" id="@product.ProductId">
+
                                         <td class="quantity__item">
                                             <div class="quantity">
                                                 <div class="pro-qty-2">
-                                                    <input asp-for="@product.Quantity" type="text" value="@product.Quantity">
+
+                                                    <input name="productId" value="@product.ProductId" type="hidden" />
+                                                    <input asp-for="@product.Quantity" name="quantity" type="text" />
+
                                                 </div>
                                             </div>
                                         </td>
+                                        </form>
                                         <td class="cart__price">@product.TotalPrice лв</td>
+                                        <td class="cart__close">
+                                            <a href="#" onclick="document.getElementById('@product.ProductId').submit();">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                            </a>
+                                        </td>
+
                                         <td class="cart__close">
                                             <a asp-controller="Cart" asp-Action="RemoveProduct" asp-route-productId="@product.ProductId">
                                                 <i class="fa fa-close"></i>
@@ -65,23 +77,13 @@
                                 <a asp-controller="Product" asp-action="Index">Продължи да пазаруваш</a>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#" onclick="document.getElementById('updateQuantityForm').submit();">
-                                    <i class="fa-solid fa-arrow-up"></i> Обнови количката
-                                </a>
-                                @*                            <button class="btn btn-link" type="submit" onclick="document.getElementById('quantityForm').submit();">
-                                    <i class="fa-solid fa-arrow-up"></i> Обнови количката
-                                    </button>*@
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="cart__total">
                         <h6>Общо в количката</h6>
                         <ul>
-                            <li>Total <span><label asp-for="@Model.TotalPrice">@Model.TotalPrice лв.</label></span></li>
+                            <li>Сума <span><label asp-for="@Model.TotalPrice">@Model.TotalPrice лв.</label></span></li>
                         </ul>
                         <form asp-controller="Order" asp-action="Details" method="post" id="createOrderForm">
                         </form>

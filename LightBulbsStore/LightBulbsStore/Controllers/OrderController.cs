@@ -43,7 +43,6 @@ namespace LightBulbsStore.Controllers
             return View(orderModel);
         }
 
-        [HttpPost]
         public async Task<IActionResult> Place(OrderDetailsViewModel orderModel)
         {
             orderModel.Products = await orderService.GetOrderProductsAsync(orderModel.OrderId);
@@ -56,7 +55,9 @@ namespace LightBulbsStore.Controllers
 
             await orderService.PlaceOrderAsync(orderModel);
 
-            return Redirect($"/{nameof(Cart)}/");
+            
+
+            return View();
         }
 
 

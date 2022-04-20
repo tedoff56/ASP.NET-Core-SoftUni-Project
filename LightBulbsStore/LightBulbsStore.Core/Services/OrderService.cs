@@ -45,14 +45,13 @@ namespace LightBulbsStore.Core.Services
             order.CustomerCity = orderModel.CustomerCity;
             order.CustomerZipCode = orderModel.CustomerZipCode;
             order.CustomerPhoneNumber = orderModel.CustomerPhoneNumber;
-            order.OrderDate = DateTime.UtcNow;
             order.Status = OrderStatus.BeingProcessed;
+            order.OrderDate = DateTime.UtcNow;
 
             repo.Update(order);
             await repo.SaveChangesAsync();
 
             await cartService.EmptyCartAsync(order.Customer.Cart.Id);
-
         }
 
         public async Task<OrderDetailsViewModel> CreateOrderAsync(string userId)

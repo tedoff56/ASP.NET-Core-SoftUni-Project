@@ -44,7 +44,6 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
                 op.ProductId
             });
 
-
         builder.Entity<User>()
             .Navigation(u => u.Customer)
             .AutoInclude();

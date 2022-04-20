@@ -1,7 +1,13 @@
 ﻿@model LayoutViewModel;
 
 <a asp-area="/" asp-controller="Cart" asp-action="Index">
-    <img src="~/img/icon/cart.png" alt=""> <span>@Model.CartProductsCount</span>
+    <img src="~/img/icon/cart.png" alt=""> 
+    <span>
+        @if(Model.CartProductsCount < 10)
+        {
+            @Model.CartProductsCount
+        }
+    </span>
 </a>
 @if(Model.CartProductsCount != 0)
 {

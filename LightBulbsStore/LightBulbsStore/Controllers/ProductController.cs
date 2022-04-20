@@ -46,5 +46,18 @@ namespace LightBulbsStore.Controllers
 
             return View(product);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Search([FromForm]string text)
+        {
+            var result = await productService.GetAllProductsAsync(0);
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                result = await productService.SearchForProduct(text);
+            }
+
+            return View(nameof(Index), result);
+        }
     }
 }

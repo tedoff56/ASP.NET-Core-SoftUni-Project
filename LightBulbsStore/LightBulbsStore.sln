@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore", "LightBulbsStore\LightBulbsStore.csproj", "{843D4C18-9204-4D05-B533-31C7BB13C395}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBulbsStore", "LightBulbsStore\LightBulbsStore.csproj", "{843D4C18-9204-4D05-B533-31C7BB13C395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore.Core", "LightBulbsStore.Core\LightBulbsStore.Core.csproj", "{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBulbsStore.Core", "LightBulbsStore.Core\LightBulbsStore.Core.csproj", "{0C7A49A6-245A-49B5-AF78-5B99B7ED5A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightBulbsStore.Infrastructure", "LightBulbsStore.Infrastructure\LightBulbsStore.Infrastructure.csproj", "{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightBulbsStore.Infrastructure", "LightBulbsStore.Infrastructure\LightBulbsStore.Infrastructure.csproj", "{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +27,11 @@ Global
 		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD8BE1F7-D86D-4E2A-9B00-FCBAF022AA4D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6AEE6EC-312E-4268-AF12-94CCD1A8C78B}
 	EndGlobalSection
 EndGlobal

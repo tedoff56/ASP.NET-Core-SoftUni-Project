@@ -27,12 +27,9 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.CartProduct", b =>
@@ -50,7 +47,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartProducts", (string)null);
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Category", b =>
@@ -75,7 +72,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Customer", b =>
@@ -116,7 +113,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Order", b =>
@@ -170,7 +167,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.OrderProduct", b =>
@@ -191,7 +188,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderProducts", (string)null);
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.Product", b =>
@@ -227,7 +224,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("LightBulbsStore.Infrastructure.Data.Models.User", b =>

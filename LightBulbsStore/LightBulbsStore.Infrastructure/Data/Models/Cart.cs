@@ -8,11 +8,14 @@ public class Cart
     public Cart()
     {
         Id = Guid.NewGuid().ToString();
+
+        Products = new();
     }
 
     public string Id { get; set; }
 
-    public decimal TotalPrice { get; set; }
-
     public List<CartProduct> Products { get; set; }
+
+    [NotMapped]
+    public decimal TotalPrice => Products.Sum(p => p.Quantity * p.Product.Price);
 }

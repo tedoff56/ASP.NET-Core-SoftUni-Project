@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-LightBulbsStore-A62C36F2-7CD7-4343-AD85-5F6B2F9EDE13")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("LightBulbsStore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

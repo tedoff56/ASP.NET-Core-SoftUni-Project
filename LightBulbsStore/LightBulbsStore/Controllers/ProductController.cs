@@ -1,6 +1,5 @@
-﻿using LightBulbsStore.Core.Models.Cart;
-using LightBulbsStore.Core.Models.Product;
-using LightBulbsStore.Core.Services.Contracts;
+﻿using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models;
 using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ namespace LightBulbsStore.Controllers
 
         private string UserId => userManager.GetUserId(User);
 
-        public async Task<IActionResult> Index(int categoryId)
+        public async Task<IActionResult> Index(int? categoryId)
         {
             var result = await productService.GetAllProductsAsync(categoryId);
 

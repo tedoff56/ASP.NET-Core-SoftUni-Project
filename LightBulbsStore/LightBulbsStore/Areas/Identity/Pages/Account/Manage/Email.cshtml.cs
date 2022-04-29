@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models.ContactForm;
 using LightBulbsStore.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,21 +23,25 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
 
         public EmailModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _emailService = emailService;
         }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        [Display(Name = "Имейл")]
         public string Email { get; set; }
 
         /// <summary>
@@ -124,10 +130,26 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account.Manage
                     pageHandler: null,
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                //await _emailSender.SendEmailAsync(
+                //    Input.NewEmail,
+                //    "Confirm your email",
+                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                var msg = new EmailMessage()
+                {
+                    ToAddresses = new List<EmailAddress>()
+                            {
+                                new EmailAddress()
+                                {
+                                    Name = Input.NewEmail,
+                                    Address = Input.NewEmail
+                                }
+                            },
+                    Subject = "Confirm your email",
+                    Content = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                };
+
+                await _emailService.SendEmailAsync(msg);
 
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
@@ -160,12 +182,29 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            //await _emailSender.SendEmailAsync(
+            //    email,
+            //    "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            var msg = new EmailMessage()
+            {
+                ToAddresses = new List<EmailAddress>()
+                            {
+                                new EmailAddress()
+                                {
+                                    Name = Input.NewEmail,
+                                    Address = Input.NewEmail
+                                }
+                            },
+                Subject = "Потвърди имейл",
+                Content = $"Потвърди акаунта си от този линк: {HtmlEncoder.Default.Encode(callbackUrl)}"
+            };
+
+            await _emailService.SendEmailAsync(msg);
+
+
+            StatusMessage = "Линк за потвърждение е изпратен на дадения имейл адрес";
             return RedirectToPage();
         }
     }

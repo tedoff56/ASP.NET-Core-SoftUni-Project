@@ -27,8 +27,7 @@ namespace LightBulbsStore.Infrastructure.Migrations
                 name: "Carts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -310,6 +309,16 @@ namespace LightBulbsStore.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "71fadcb3-e337-4904-97a6-ed324c40ad2b", "d70c4ad4-abc8-4d7b-a5f1-cf1935f2e786", "Customer", "CUSTOMER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "d4c829a2-c71f-41b5-8a9d-6c3404036ec3", "440422fb-c295-4d7d-a37e-fee15a45054a", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

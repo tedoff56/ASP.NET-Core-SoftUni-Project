@@ -9,6 +9,6 @@ namespace LightBulbsStore.Core.Services.Contracts
 {
     public interface IEmailService
     {
-        Task Send(EmailMessage message);
+        Task SendEmailAsync(EmailMessage message);
     }
 }

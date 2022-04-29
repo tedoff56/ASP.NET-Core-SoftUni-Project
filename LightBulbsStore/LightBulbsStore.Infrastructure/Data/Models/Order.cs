@@ -12,7 +12,7 @@ public class Order
 
         Products = new List<OrderProduct>();
 
-        Status = OrderStatus.BeingProcessed;
+        Status = OrderStatus.Pending;
     }
 
     public string Id { get; set; }

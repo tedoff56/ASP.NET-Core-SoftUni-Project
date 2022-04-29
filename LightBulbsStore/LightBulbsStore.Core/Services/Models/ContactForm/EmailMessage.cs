@@ -8,10 +8,27 @@ namespace LightBulbsStore.Core.Services.Models.ContactForm
 {
     public class EmailMessage
     {
+        private string name = "krushki.com";
+        private string address = "krushki.com.contacts@gmail.com";
+
         public EmailMessage()
         {
-            ToAddresses = new();
-            FromAddresses = new();
+            ToAddresses = new()
+            {
+                new EmailAddress()
+                {
+                    Name = name,
+                    Address = address
+                }
+            };
+            FromAddresses = new()
+            {
+                new EmailAddress()
+                {
+                    Name = name,
+                    Address = address
+                }
+            };
         }
 
         public List<EmailAddress> ToAddresses { get; set; }

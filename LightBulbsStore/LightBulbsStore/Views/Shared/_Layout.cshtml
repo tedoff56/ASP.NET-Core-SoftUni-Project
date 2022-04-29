@@ -18,15 +18,17 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.css">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
-    @*<link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">*@
-    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/allorders-table.css" type="text/css" />
 
 </head>
 
@@ -36,36 +38,6 @@
         <div class="loader"></div>
     </div>
 
-    @* <!-- Offcanvas Menu Begin --> *@
-    @* <div class="offcanvas-menu-overlay"></div> *@
-    @* <div class="offcanvas-menu-wrapper"> *@
-    @*     <div class="offcanvas__option"> *@
-    @*         <div class="offcanvas__links"> *@
-    @*             <a href="#">Sign in</a> *@
-    @*             <a href="#">FAQs</a> *@
-    @*         </div> *@
-    @*         $1$ <div class="offcanvas__top__hover"> #1# *@
-    @*         $1$     <span>Usd <i class="arrow_carrot-down"></i></span> #1# *@
-    @*         $1$     <ul> #1# *@
-    @*         $1$         <li>USD</li> #1# *@
-    @*         $1$         <li>EUR</li> #1# *@
-    @*         $1$         <li>USD</li> #1# *@
-    @*         $1$     </ul> #1# *@
-    @*         $1$ </div> #1# *@
-    @*     </div> *@
-    @*     <div class="offcanvas__nav__option"> *@
-    @*         <a href="#" class="search-switch"><img src="~/img/icon/search.png" alt=""></a> *@
-    @*         <a href="#"><img src="~/img/icon/heart.png" alt=""></a> *@
-    @*         <a href="#"><img src="~/img/icon/cart.png" alt=""> <span>0</span></a> *@
-    @*         <div class="price">$0.00</div> *@
-    @*     </div> *@
-    @*     <div id="mobile-menu-wrap"></div> *@
-    @*     <div class="offcanvas__text"> *@
-    @*         <p>Free shipping, 30-day return or refund guarantee.</p> *@
-    @*     </div> *@
-    @* </div> *@
-    @* <!-- Offcanvas Menu End --> *@
-
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
@@ -73,7 +45,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            <p>Безплатна доставка при поръчка над 99лв.</p>
+                            <p>Безплатна доставка при поръчки над 99лв.</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
@@ -82,11 +54,32 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
 
+                                    <div class="header__top__hover">
+                                        <span>
+                                            <a asp-area="Identity" asp-page="/Account/Manage/Email" title="Manage">Здравей, @User.Identity?.Name!</a>
+                                        </span>
+                                        <ul>
+                                            <li><a asp-area="" asp-controller="User" asp-action="CustomerInfo">Информация за доставка</a></li>
+                                            <li><a asp-area="" asp-controller="Order" asp-action="All">Моите поръчки</a></li>
 
-                                    <form id="form1" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                        <a asp-area="Identity" asp-page="/Account/Manage/Email" title="Manage">Здравей, @User.Identity?.Name!</a>
-                                        <a href="#" onclick="document.getElementById('form1').submit();">Изход</a>
-                                    </form>
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                                <li><a asp-area="Admin" asp-controller="Product" asp-action="Add">Добавяне на продукт <i class="fa-solid fa-user-gear"></i></a></li>
+                                                <li><a asp-area="Admin" asp-controller="Category" asp-action="Add">Добавяне на категория <i class="fa-solid fa-user-gear"></i></a></li>
+                                                <li><a asp-area="Admin" asp-controller="Order" asp-action="AllOrders">Поръчки <i class="fa-solid fa-user-gear"></i></a></li>
+                                            }
+
+                                            <li>
+                                                <form id="form1" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                    <a href="#" onclick="document.getElementById('form1').submit();">Изход</a>
+                                                </form>
+                                            </li>
+                                        </ul>
+
+
+                                    </div>
+
+
                                 }
                                 else
                                 {
@@ -94,17 +87,7 @@
                                     <a asp-area="Identity" asp-page="/Account/Login">Вход</a>
                                 }
                             </div>
-                            @if (User.IsInRole("Administrator"))
-                            {
-                                <div class="header__top__hover">
-                                    <span>Администрация<i class="arrow_carrot-down"></i></span>
-                                    <ul>
-                                        <li><a asp-area="Admin" asp-controller="Product" asp-action="Add"> Добавяне на продукт</a></li>
-                                        <li><a asp-area="Admin" asp-controller="Category" asp-action="Add"> Добавяне на категория</a></li>
-                                        <li><a asp-area="Admin" asp-controller="Order" asp-action="AllOrders">Поръчки</a></li>
-                                    </ul>
-                                </div>
-                            }
+
                         </div>
                     </div>
                 </div>
@@ -151,47 +134,15 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-@*                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="~/img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="~/img/payment.png" alt=""></a>
-                    </div>
-                </div>*@
-@*                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>*@
                 <div class="col-lg-2 col-md-3 col-sm-6">
                     <div class="footer__widget">
                         <h6>Меню</h6>
                         <ul>
-                            <li><a href="#">Контакти</a></li>
+                            <li><a asp-controller="Home" asp-action="Contacts">Контакти</a></li>
                             <li><a href="#">Начини на плащане</a></li>
                             <li><a href="#">Доставка</a></li>
                             <li><a href="#">Рекламация</a></li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Абонамент</h6>
-                        <div class="footer__newslatter">
-                            <p>Абонирай се, за да получаваш кодове за отстъпа и информация за нови продукти.</p>
-                            <form action="#">
-                                <input type="text" placeholder="Email адрес">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -223,7 +174,6 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Js Plugins -->

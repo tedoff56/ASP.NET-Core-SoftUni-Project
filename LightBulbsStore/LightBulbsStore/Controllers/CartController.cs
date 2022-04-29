@@ -61,15 +61,7 @@ namespace LightBulbsStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Update([FromForm] UpdateProductQuantityServiceModel model)
         {
-
-            //var quantityParsed = int.TryParse(model.Quantity, out int quantityResult);
-
-
             model.UserId = this.UserId;
-            //if(quantityParsed == false)
-            //{
-            //    return View(nameof(Index));
-            //}
 
             await cartService.UpdateAsync(model);
 

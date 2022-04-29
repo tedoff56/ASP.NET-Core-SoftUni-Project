@@ -1,6 +1,7 @@
 ﻿using LightBulbsStore.Core.Models.Category;
 using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models;
 using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
@@ -44,7 +45,7 @@ public class ProductService : IProductService
 
         if (product is null)
         {
-            return new ProductEditFormViewModel();
+            return null;
         }
 
         return new ProductEditFormViewModel()
@@ -79,7 +80,7 @@ public class ProductService : IProductService
         return true;
     }
 
-    public async Task<List<ProductViewModel>> GetAllProductsAsync(int categoryId = 0)
+    public async Task<List<ProductViewModel>> GetAllProductsAsync(int? categoryId = null) 
     {
         var products = await repo.All<Product>()
             .Select(p => new ProductViewModel()
@@ -96,15 +97,14 @@ public class ProductService : IProductService
                     Description = p.Description,
                 }
 
-            })
-            .ToListAsync();
+            }).ToListAsync();
 
-        if (categoryId is 0)
+        if (categoryId is null)
         {
             return products;
         }
 
-        return products.Where(p => p.Category.Id == categoryId).ToList();
+        return products.Where(p => p.Category.Id == (int)categoryId).ToList();
     }
 
     public async Task<ProductViewModel> GetProductAsync(string productId)
@@ -136,7 +136,7 @@ public class ProductService : IProductService
 
     public async Task<List<ProductViewModel>> SearchForProduct(string text)
     {
-        var result = await GetAllProductsAsync(0);
+        var result = await GetAllProductsAsync(); ;
 
 
         return result

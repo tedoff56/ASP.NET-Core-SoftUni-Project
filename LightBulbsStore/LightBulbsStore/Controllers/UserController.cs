@@ -8,7 +8,6 @@ using System.Security.Claims;
 
 namespace LightBulbsStore.Controllers
 {
-    [Route("/Identity/Account/Manage/")]
     public class UserController : BaseController
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -27,24 +26,6 @@ namespace LightBulbsStore.Controllers
             userService = _userService;
         }
 
-        [Route("CreateRole")]
-        public async Task<IActionResult> CreateRole()
-        {
-
-            await roleManager.CreateAsync(new IdentityRole()
-            {
-                Name = "Administrator"
-            });
-
-            await roleManager.CreateAsync(new IdentityRole()
-            {
-                Name = "Customer"
-            });
-
-            return Ok();
-        }
-
-        [Route("SetRole")]
         public async Task<IActionResult> SetRole()
         {
             var user = userManager.Users
@@ -61,7 +42,7 @@ namespace LightBulbsStore.Controllers
             return Ok();
         }
 
-        [Route("CustomerInfo")]
+
         public async Task<IActionResult> CustomerInfo()
         {
 
@@ -74,7 +55,6 @@ namespace LightBulbsStore.Controllers
         }
 
         [HttpPost]
-        [Route("CustomerInfo")]
         public async Task<IActionResult> CustomerInfo(CustomerInfoViewModel customerInfoViewModel)
         {
             var userId = (await userManager.GetUserAsync(User)).Id;

@@ -1,54 +1,64 @@
-﻿@using LightBulbsStore.Services
+﻿
 @model List<ProductViewModel>
 @inject TextShortenerService shortenerService
-
+@{
+    ViewData["Title"] = "Продукти";
+}
 <div class="container">
     <div class="row bootstrap snippets bootdeys" id="store-list">
-        @for (int i = 0; i < Model.Count(); i++)
+        @if (!@Model.Any())
         {
-            <div class="col-md-6 col-xs-12">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <a href="#"><img src="@Model[i].ImageUrl" class="img-responsive"></a>
-                            </div>
-                            <div class="col-sm-7">
-                                <h4 class="title-store">
-                                    <strong><a asp-controller="Product" asp-action="Info" asp-route-productId="@Model[i].ProductId">@Model[i].Name</a></strong>
-                                </h4>
-                                <hr>
-                                <p>@shortenerService.Transform(@Model[i].Description, 200)</p>
-                                <hr>
-                                <p>Категория: <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@Model[i].Category.Id">@Model[i].Category.Name</a> </p>
-                                <a href="#" class="btn btn-default" disabled="" data-original-title="" title="">@Model[i].Price лв.</a>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <p>
+            <div class="centered">
+                <h3>Няма намерени продукти</h3>
+            </div>
+        }
+        else
+        {
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <div class="col-md-6 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <a href="#"><img src="@Model[i].ImageUrl" class="img-responsive"></a>
+                                </div>
+                                <div class="col-sm-7">
+                                    <h4 class="title-store">
+                                        <strong><a asp-controller="Product" asp-action="Info" asp-route-productId="@Model[i].ProductId">@Model[i].Name</a></strong>
+                                    </h4>
+                                    <hr>
+                                    <p>@shortenerService.Transform(@Model[i].Description, 200)</p>
+                                    <hr>
+                                    <p>Категория: <a asp-controller="Product" asp-action="Index" asp-route-categoryId="@Model[i].Category.Id">@Model[i].Category.Name</a> </p>
+                                    <a href="#" class="btn btn-default" disabled="" data-original-title="" title="">@Model[i].Price лв.</a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <p>
 
-                                        <form asp-controller="Cart" asp-action="AddProduct" id="@Model[i].ProductId" method="post">
-                                            <input name="ProductId" value="@Model[i].ProductId" type="hidden" />
-                                        </form>
+                                            <form asp-controller="Cart" asp-action="AddProduct" id="@Model[i].ProductId" method="post">
+                                                <input name="ProductId" value="@Model[i].ProductId" type="hidden" />
+                                            </form>
 
-                                        <a href="#" onclick="document.getElementById('@Model[i].ProductId').submit();" class="btn btn-warning pull-right" data-original-title="" title="">
-                                            <i class="fa-solid fa-cart-arrow-down"></i> Добави
-                                        </a>
-                                        @if (User.IsInRole("Administrator"))
-                                        {
-                                            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@Model[i].ProductId" class="btn btn-info pull-right" data-original-title="" title="">
-
-                                                <i class="fa-solid fa-pen-to-square"></i> Промяна
+                                            <a href="#" onclick="document.getElementById('@Model[i].ProductId').submit();" class="btn btn-warning pull-right" data-original-title="" title="">
+                                                <i class="fa-solid fa-cart-arrow-down"></i> Добави
                                             </a>
-                                        }
-                                    </p>
-                                }
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                                <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@Model[i].ProductId" class="btn btn-info pull-right" data-original-title="" title="">
+
+                                                    <i class="fa-solid fa-pen-to-square"></i> Редактирай
+                                                </a>
+                                            }
+                                        </p>
+                                    }
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            }
         }
-
     </div>
 </div>

@@ -1,32 +1,53 @@
-﻿@model List<OrderAdminViewModel>
-@{
-    int i = 1;
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">№</th>
-            <th scope="col">Имейл</th>
-            <th scope="col">Дата на поръчка</th>
-            <th scope="col">Обща сума</th>
+﻿@model List<OrderDetailsAdminViewModel>
 
-            <th scope="col">Действия</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <th scope="row">@(i++)</th>
-                <td>@order.UserEmail</td>
-                <td>@order.OrderDate</td>
-                <td>@order.OrderCost</td>
-                <td>
-                    <a asp-area="Admin" asp-controller="Order" asp-action="View" asp-route-id="@order.OrderId"><i class="fa-solid fa-eye"></i></a>
-                    <a asp-area="Admin" asp-controller="Order" asp-action="Process" asp-route-id="@order.OrderId"><i class="fa-solid fa-check pl-3"></i></a>
-                    <a asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@order.OrderId"><i class="fa-solid fa-xmark pl-3"></i></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="table-wrapper">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Клиент</th>
+                    <th>Град</th>
+                    <th>Дата на поръчка</th>
+                    <th>Статус</th>
+                    <th>Обща сума</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td><a href="#">@order.CustomerFirstName @order.CustomerLastName</a></td>
+                        <td>@order.CustomerCity</td>
+                        <td>@order.OrderDate.ToString("f")</td>
+                        @switch (order.OrderStatus)
+                        {
+                            case OrderStatus.NotFinished:
+                                <td><span class="status text-danger">&bull;</span> Неизпълнена</td>
+                                break;
+                            case OrderStatus.Pending:
+                                <td><span class="status text-warning">&bull;</span> Обработва се</td>
+                                break;
+                            case OrderStatus.Shipped:
+                                <td><span class="status text-info">&bull;</span> На път</td>
+                                break;
+                            case OrderStatus.Delivered:
+                                <td><span class="status text-success">&bull;</span> Доставена</td>
+                                break;
+                            case OrderStatus.Cancelled:
+                                <td><span class="status text-danger">&bull;</span> Отказана</td>
+                                break;
+                        }
+                        <td>@order.OrderCost лв.</td>
+                        <td>
+                            <a class="view" asp-area="Admin" asp-controller="Order" asp-action="View" asp-route-id="@order.OrderId"><i class="fa-solid fa-eye"></i></a>
+                            <a class="view" asp-area="Admin" asp-controller="Order" asp-action="Ship" asp-route-id="@order.OrderId"><i class="fa-solid fa-truck-fast"></i></a>
+                            <a class="view" asp-area="Admin" asp-controller="Order" asp-action="Finish" asp-route-id="@order.OrderId"><i class="fa-solid fa-check"></i></a>
+                            <a class="view" asp-area="Admin" asp-controller="Order" asp-action="Cancel" asp-route-id="@order.OrderId"><i class="fa-solid fa-xmark pl-3"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

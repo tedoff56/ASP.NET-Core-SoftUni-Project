@@ -6,6 +6,7 @@ using LightBulbsStore.Core.Services.Contracts;
 using LightBulbsStore.Infrastructure.Data.Enumerations;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -45,7 +46,7 @@ namespace LightBulbsStore.Core.Services
             order.CustomerCity = orderModel.CustomerCity;
             order.CustomerZipCode = orderModel.CustomerZipCode;
             order.CustomerPhoneNumber = orderModel.CustomerPhoneNumber;
-            order.Status = OrderStatus.BeingProcessed;
+            order.Status = OrderStatus.Pending;
             order.OrderDate = DateTime.UtcNow;
 
             repo.Update(order);
@@ -91,7 +92,8 @@ namespace LightBulbsStore.Core.Services
                     .Select(p => new OrderProduct()
                     {
                         ProductId = p.ProductId,
-                        Quantity = p.Quantity
+                        Quantity = p.Quantity,
+                        Price = p.Price
                     })
                     .ToList()
             };
@@ -163,14 +165,13 @@ namespace LightBulbsStore.Core.Services
         }
 
 
-        public async Task<List<OrderAdminViewModel>> GetAllOrdersAsync()
+        public async Task<List<OrderDetailsAdminViewModel>> GetAllOrdersAdminAsync()
         {
             var dbOrders = await repo.AllReadonly<Order>()
-                .Where(o => o.Status == OrderStatus.BeingProcessed)
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
-            var orders = new List<OrderAdminViewModel>();
+            var orders = new List<OrderDetailsAdminViewModel>();
 
             foreach (var order in dbOrders)
             {
@@ -179,20 +180,24 @@ namespace LightBulbsStore.Core.Services
                 var user = await repo.All<User>()
                     .FirstOrDefaultAsync(u => u.Customer.Orders.Any(o => o.Id == order.Id));
 
-                orders.Add(new OrderAdminViewModel
+                orders.Add(new OrderDetailsAdminViewModel
                 {
                     UserEmail = user.UserName,
                     OrderId = order.Id,
-                    OrderDate = order.OrderDate.ToString("f"),
+                    OrderDate = order.OrderDate,
                     TotalOrders = totalOrders,
                     OrderCost = order.TotalCost,
+                    CustomerFirstName = order.CustomerFirstName,
+                    CustomerLastName = order.CustomerLastName,
+                    CustomerCity = order.CustomerCity,
+                    OrderStatus = order.Status
                 });
             }
 
             return orders;
         }
 
-        public async Task<OrderAdminViewModel> GetOrderDetailsAsync(string orderId)
+        public async Task<OrderDetailsAdminViewModel> GetOrderDetailsAdminAsync(string orderId)
         {
             var products = await repo.All<OrderProduct>()
                 .Where(op => op.OrderId == orderId)
@@ -200,7 +205,7 @@ namespace LightBulbsStore.Core.Services
                 .ToListAsync();
 
             var order = await repo.All<Order>()
-                .Select(o => new OrderAdminViewModel
+                .Select(o => new OrderDetailsAdminViewModel
                 {
                     Customer = new CustomerInfoViewModel()
                     {
@@ -212,10 +217,10 @@ namespace LightBulbsStore.Core.Services
                         ZipCode = o.CustomerZipCode
                     },
                     OrderId = o.Id,
-                    OrderDate = o.OrderDate.ToString("f"),
+                    OrderDate = o.OrderDate,
                     OrderCost = o.TotalCost,
                     CustomerTotalOrders = repo.All<Order>()
-                                .Where(or => or.Status != OrderStatus.Deleted && or.Status != OrderStatus.NotFinished)
+                                .Where(or => or.Status != OrderStatus.Cancelled && or.Status != OrderStatus.NotFinished)
                                 .Count(or => or.CustomerId == o.CustomerId),
                     Products = products
                                 .Select(p => new ProductViewModel()
@@ -234,27 +239,17 @@ namespace LightBulbsStore.Core.Services
             return order;
         }
 
-        public async Task Delete(string orderId)
+        public async Task SetStatus(string orderId, OrderStatus status)
         {
             var order = await repo.All<Order>()
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            order.Status = OrderStatus.Deleted;
+            order.Status = status;
 
             repo.Update(order);
             await repo.SaveChangesAsync();
         }
 
-        public async Task Process(string orderId)
-        {
-            var order = await repo.All<Order>()
-                .FirstOrDefaultAsync(o => o.Id == orderId);
-
-            order.Status = OrderStatus.Processed;
-
-            repo.Update(order);
-            await repo.SaveChangesAsync();
-        }
 
         public async Task<List<OrderProductViewModel>> GetOrderProductsAsync(string orderId)
         {
@@ -274,6 +269,44 @@ namespace LightBulbsStore.Core.Services
                 .ToList();
 
             return products;
+        }
+
+        public async Task<OrderDetailsViewModel> GetOrderDetailsCustomerAsync(string orderId)
+        {
+            var order = await repo.GetByIdAsync<Order>(orderId);
+
+            if (order is null)
+            {
+                return null;
+            }
+
+            var orderModel = new OrderDetailsViewModel()
+            {
+                OrderId = order.Id,
+                CustomerFirstName = order.CustomerFirstName,
+                CustomerLastName = order.CustomerLastName,
+                CustomerAddress = order.CustomerAddress,
+                CustomerCity = order.CustomerCity,
+                CustomerPhoneNumber = order.CustomerPhoneNumber,
+                CustomerZipCode = order.CustomerZipCode,
+                Products = order.Products
+                .Select(op => new OrderProductViewModel()
+                {
+                    ProductId = op.Product.Id,
+                    Name = op.Product.Name,
+                    ImageUrl= op.Product.ImageUrl,
+                    Price = op.Price,
+                    Quantity = op.Quantity,
+                    TotalProductPrice = op.Price * op.Quantity
+
+                })
+                .ToList(),
+                Status = order.Status,
+                TotalCost = order.TotalCost,
+                OrderDate = order.OrderDate
+            };
+
+            return orderModel;
         }
     }
 }

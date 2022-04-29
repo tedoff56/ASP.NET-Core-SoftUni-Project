@@ -16,32 +16,32 @@ namespace LightBulbsStore.Core.Models.Order
 
         public OrderStatus Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Име")]
         [MaxLength(DataConstants.CustomerNameMaxLength)]
         public string CustomerFirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Фамилия")]
         [MaxLength(DataConstants.CustomerNameMaxLength)]
         public string CustomerLastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Адрес")]
         [MaxLength(DataConstants.CustomerAddressMaxLength)]
         public string CustomerAddress { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Град")]
         [MaxLength(DataConstants.CustomerCityNameMaxLength)]
         public string CustomerCity { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Пощенски код")]
         [RegularExpression(@"\d{4}", ErrorMessage = @"{0} трябва да съдържа точно 4 цифри")]
         public string CustomerZipCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
         [Display(Name = "Телефонен номер")]
         [MaxLength(DataConstants.CustomerPhoneNumberMaxLength)]
         public string CustomerPhoneNumber { get; set; }

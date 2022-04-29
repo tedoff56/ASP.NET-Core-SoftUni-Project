@@ -2,7 +2,7 @@
 {
     public enum ProductStatus
     {
-        Deleted = 0,
+        Hidden = 0,
         Active = 1
     }
 }

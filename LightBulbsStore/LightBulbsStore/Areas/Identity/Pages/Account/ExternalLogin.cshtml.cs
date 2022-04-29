@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using LightBulbsStore.Core.Services.Contracts;
+using LightBulbsStore.Core.Services.Models.ContactForm;
 
 namespace LightBulbsStore.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IEmailService _emailService;
 
         public ExternalLoginModel(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             IUserStore<User> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IEmailService emailService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +48,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -174,8 +179,26 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(
+                        //    Input.Email, 
+                        //    "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                        var msg = new EmailMessage()
+                        {
+                            ToAddresses = new List<EmailAddress>()
+                            {
+                                new EmailAddress()
+                                {
+                                    Name = Input.Email,
+                                    Address = Input.Email
+                                }
+                            },
+                            Subject = "Confirm your email",
+                            Content = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                        };
+
+                        await _emailService.SendEmailAsync(msg);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

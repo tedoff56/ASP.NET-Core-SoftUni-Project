@@ -84,7 +84,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Имейл")]
             public string Email { get; set; }
 
             /// <summary>
@@ -94,7 +94,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Парола")]
             public string Password { get; set; }
 
             /// <summary>
@@ -102,7 +102,7 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Потвърди паролата")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -132,11 +132,11 @@ namespace LightBulbsStore.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(user);
 
-                    var defaultrole = await _roleManager.FindByNameAsync("Customer");
+                    var defaultRole = await _roleManager.FindByNameAsync("Customer");
 
-                    if (defaultrole != null)
+                    if (defaultRole != null)
                     {
-                        var roleresult = await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                        await _userManager.AddToRoleAsync(user, defaultRole.Name);
                     }
 
                     await _userService.CreateCustomerAsync(userId);

@@ -3,8 +3,8 @@
 public enum OrderStatus
 {
     NotFinished = 0,
-    BeingProcessed = 1,
-    Processed = 2,
-    Finished = 3,
-    Deleted = 4
+    Pending = 1,
+    Shipped = 2,
+    Delivered = 3,
+    Cancelled = 4
 }

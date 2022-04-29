@@ -1,5 +1,4 @@
 ﻿
-using LightBulbsStore.Controllers;
 using LightBulbsStore.Core.Models.Product;
 using LightBulbsStore.Core.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -53,13 +52,17 @@ public class ProductController : BaseController
     {
         var product = await productService.GetProductForEditAsync(productId);
 
+        if(product is null)
+        {
+            return Redirect("~/Product/");
+        }
+
         return View(product);
     }
 
     [HttpPost]
     public async Task<IActionResult> Edit(string productId, ProductEditFormViewModel productModel)
     {
-
         productModel.Categories = await categoryService.GetAllCategoriesAsync();
         productModel.Id = productId;
 
@@ -67,6 +70,7 @@ public class ProductController : BaseController
         {
             return View(productModel);
         }
+
         var editedSuccessfully = await productService.EditProductAsync(productModel);
 
         if (!editedSuccessfully)

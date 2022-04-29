@@ -1,4 +1,5 @@
 ﻿using LightBulbsStore.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -80,5 +81,27 @@ public class BulbsStoreDbContext : IdentityDbContext<User>
             .Entity<Category>()
             .HasIndex(c => c.Name)
             .IsUnique();
+
+        SeedRoles(builder);
+
+    }
+
+    private void SeedRoles(ModelBuilder builder)
+    {
+        builder
+            .Entity<IdentityRole>()
+            .HasData(
+            new IdentityRole()
+            {
+                Name = "Administrator",
+                NormalizedName = "ADMINISTRATOR",
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            },
+            new IdentityRole()
+            {
+                Name = "Customer",
+                NormalizedName = "CUSTOMER",
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            });
     }
 }

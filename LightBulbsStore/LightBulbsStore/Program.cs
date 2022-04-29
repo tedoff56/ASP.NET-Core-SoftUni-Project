@@ -1,12 +1,9 @@
-using LightBulbsStore.Infrastructure;
 using LightBulbsStore.Infrastructure.Data;
 using LightBulbsStore.Infrastructure.Data.Models;
 using LightBulbsStore.Extensions;
 using LightBulbsStore.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +13,8 @@ var connectionString = builder.Configuration.GetConnectionString("BulbsStoreDbCo
 builder.Services.AddApplicationDbContexts(builder.Configuration);
 builder.Services.AddDefaultIdentity<User>(options =>
 {
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;

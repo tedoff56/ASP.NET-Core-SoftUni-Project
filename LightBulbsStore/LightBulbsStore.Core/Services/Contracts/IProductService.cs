@@ -7,7 +7,7 @@ public interface IProductService
 {
     Task AddProductAsync(ProductEditFormViewModel product);
 
-    Task<List<ProductViewModel>> GetAllProductsAsync(int categoryId);
+    Task<List<ProductViewModel>> GetAllProductsAsync(int? categoryId = null);
 
     Task<ProductEditFormViewModel> GetProductForEditAsync(string productId);
 

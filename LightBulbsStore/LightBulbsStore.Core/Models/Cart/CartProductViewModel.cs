@@ -1,4 +1,5 @@
 ﻿using LightBulbsStore.Core.Models.Category;
+using LightBulbsStore.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,8 @@ namespace LightBulbsStore.Core.Models.Cart
         public decimal Price { get; set; }
 
         [Range(0, 100)]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
+        [Display(Name = "Количество")]
         public int Quantity { get; set; }
 
         public decimal TotalPrice => Price * Quantity;

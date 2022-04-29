@@ -1,0 +1,60 @@
+﻿@model List<OrderDetailsViewModel>
+
+<div class="container">
+
+    @if (!Model.Any())
+    {
+        <div class="row" id="appSummary">
+            <div class="col text-center">
+                <p class="lead">Нямате направени поръчки</p>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Дата на поръчка</th>
+                        <th>Статус</th>
+                        <th>Обща сума</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderDate.ToString("f")</td>
+                            @switch (order.Status)
+                            {
+                                case OrderStatus.NotFinished:
+                                    <td><span class="status text-danger">&bull;</span> Неизпълнена</td>
+                                    break;
+                                case OrderStatus.Pending:
+                                    <td><span class="status text-warning">&bull;</span> Обработва се</td>
+                                    break;
+                                case OrderStatus.Shipped:
+                                    <td><span class="status text-info">&bull;</span> На път</td>
+                                    break;
+                                case OrderStatus.Delivered:
+                                    <td><span class="status text-success">&bull;</span> Доставена</td>
+                                    break;
+                                case OrderStatus.Cancelled:
+                                    <td><span class="status text-danger">&bull;</span> Отказана</td>
+                                    break;
+                            }
+                            <td>@order.TotalCost лв.</td>
+                            <td>
+                                <a class="view" asp-area="" asp-controller="Order" asp-action="View" asp-route-id="@order.OrderId"><i class="fa-solid fa-eye"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

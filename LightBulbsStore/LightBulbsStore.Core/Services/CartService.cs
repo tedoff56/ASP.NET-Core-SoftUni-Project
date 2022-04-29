@@ -18,18 +18,9 @@ namespace LightBulbsStore.Core.Services
     {
         private readonly IBulbsStoreDbRepository repo;
 
-        private readonly IUserService userService;
-
-        private readonly UserManager<User> userManager;
-
-        public CartService(
-            IBulbsStoreDbRepository _repo,
-            IUserService _userService,
-            UserManager<User> _userManager)
+        public CartService(IBulbsStoreDbRepository _repo)
         {
             repo = _repo;
-            userService = _userService;
-            userManager = _userManager;
         }
 
         public async Task<List<CartProductViewModel>> GetCartProductsAsync(string userId)
@@ -48,6 +39,11 @@ namespace LightBulbsStore.Core.Services
                     Quantity = p.Quantity
                 })
                 .ToList();
+
+            if(products is null)
+            {
+                return null;
+            }
 
             return products;
         }
@@ -105,6 +101,10 @@ namespace LightBulbsStore.Core.Services
         {
             var products = await GetCartProductsAsync(userId);
 
+            if(products is null)
+            {
+                return 0;
+            }
             return products.Sum(p => p.Quantity);
         }
 

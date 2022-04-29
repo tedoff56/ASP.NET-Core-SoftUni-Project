@@ -1,4 +1,7 @@
 ﻿@model OrderDetailsViewModel
+@{
+    ViewData["Title"] = "Поръчка";
+}
 <div class="container">
     <div class="checkout__form">
         <form asp-action="Place" method="post" id="finishOrder">
@@ -62,11 +65,6 @@
                         </div>
 
                     </div>
-                    @*                    <div class="checkout__input">
-                        <p>Order notes<span>*</span></p>
-                        <input type="text"
-                        placeholder="Notes about your order, e.g. special notes for delivery.">
-                        </div>*@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="checkout__order">
@@ -82,13 +80,6 @@
                         <ul class="checkout__total__all">
                             <li>Общо <span>@(Model.TotalCost)лв.</span></li>
                         </ul>
-@*                        <div class="checkout__input__checkbox">
-                            <label for="payment">
-                                Наложен платеж
-                                <input type="checkbox" id="payment">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>*@
                         <a href="#" onclick="document.getElementById('finishOrder').submit();" type="submit" class="site-btn">
                             Завърши
                         </a>

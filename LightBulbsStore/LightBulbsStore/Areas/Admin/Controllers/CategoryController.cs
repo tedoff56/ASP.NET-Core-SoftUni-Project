@@ -15,20 +15,26 @@ namespace LightBulbsStore.Areas.Admin.Controllers
 
         public IActionResult Add()
         {
-            return this.View();
+            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(CategoryCreateViewModel categoryModel)
         {
-            bool createdSuccessfully = await categoryService.CreateCategoryAsync(categoryModel);
-
-            if (!ModelState.IsValid || !createdSuccessfully)
+            if (!ModelState.IsValid)
             {
-                return this.View();
+                return View();
             }
 
-            return this.Redirect("~/Product/");
+            bool createdSuccessfully = await categoryService.CreateCategoryAsync(categoryModel);
+
+            if (!createdSuccessfully)
+            {
+                ModelState.AddModelError(string.Empty, "Категорията вече съществува");
+                return View();
+            }
+
+            return Redirect("~/Product/");
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightBulbsStore.Infrastructure.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,11 +10,14 @@ namespace LightBulbsStore.Core.Models.Category
 {
     public class CategoryCreateViewModel
     {
-        [Required]
+        [Required(ErrorMessage = DataConstants.RequiredFieldError)]
+        [StringLength(30, MinimumLength = 5, 
+            ErrorMessage = DataConstants.MinMaxFieldError)]
         [Display(Name = "Име")]
         public string Name { get; set; }
 
+
         [Display(Name = "Описание")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

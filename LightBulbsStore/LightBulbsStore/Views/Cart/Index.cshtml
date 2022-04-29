@@ -4,13 +4,13 @@
     ViewData["Title"] = "Количка";
 }
 
-<section class="shopping-cart spad">
+<div class="shopping-cart spad">
     <div class="container">
         <div class="row">
             @if (@Model.IsEmpty)
             {
-                <div class="centered">
-                    <h3>Количката е празна!</h3>
+                <div class="col text-center">
+                    <p class="lead">Количката е празна</p>
                 </div>
             }
             else
@@ -48,8 +48,7 @@
                                                 <div class="pro-qty-2">
 
                                                     <input name="productId" value="@product.ProductId" type="hidden" />
-                                                    <input asp-for="@product.Quantity" name="quantity" type="text" />
-
+                                                    <input asp-for="@product.Quantity" name="quantity" type="text"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -94,4 +93,4 @@
 
         </div>
     </div>
-</section>
+</div>

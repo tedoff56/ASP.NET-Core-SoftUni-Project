@@ -1,9 +1,5 @@
 ﻿using LightBulbsStore.Core.Models.Order;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LightBulbsStore.Infrastructure.Data.Enumerations;
 
 namespace LightBulbsStore.Core.Services.Contracts
 {
@@ -13,13 +9,13 @@ namespace LightBulbsStore.Core.Services.Contracts
 
         Task<OrderDetailsViewModel> CreateOrderAsync(string userId);
 
-        Task<List<OrderAdminViewModel>> GetAllOrdersAsync();
+        Task<List<OrderDetailsAdminViewModel>> GetAllOrdersAdminAsync();
 
-        Task<OrderAdminViewModel> GetOrderDetailsAsync(string orderId);
+        Task<OrderDetailsAdminViewModel> GetOrderDetailsAdminAsync(string orderId);
 
-        Task Delete(string orderId);
+        Task<OrderDetailsViewModel> GetOrderDetailsCustomerAsync(string orderId);
 
-        Task Process(string orderId);
+        Task SetStatus(string orderId, OrderStatus status);
 
         Task<List<OrderProductViewModel>> GetOrderProductsAsync(string orderId);
 

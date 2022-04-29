@@ -207,10 +207,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Category/AllProducts.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcQWxsUHJvZHVjdHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Home/Contacts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -223,12 +219,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdG9yZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Order/All.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQWxsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Order/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Order/Place.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcUGxhY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Order/View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/tedof/Documents/GitHub/ASP.NET-Core-SoftUni-Project/LightBulbsStore/LightBulbsStore/Views/Product/Index.cshtml]

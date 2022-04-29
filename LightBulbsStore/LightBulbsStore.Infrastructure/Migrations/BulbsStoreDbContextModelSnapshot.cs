@@ -322,6 +322,22 @@ namespace LightBulbsStore.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d4c829a2-c71f-41b5-8a9d-6c3404036ec3",
+                            ConcurrencyStamp = "440422fb-c295-4d7d-a37e-fee15a45054a",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "71fadcb3-e337-4904-97a6-ed324c40ad2b",
+                            ConcurrencyStamp = "d70c4ad4-abc8-4d7b-a5f1-cf1935f2e786",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

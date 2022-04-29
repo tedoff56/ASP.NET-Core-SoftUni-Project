@@ -18,7 +18,8 @@ namespace LightBulbsStore.Core.Services
 
         public async Task<bool> CreateCategoryAsync(CategoryCreateViewModel categoryModel)
         {
-            bool categoryAlreadyExists = repo.All<Category>().Any(c => c.Name.ToUpper() == categoryModel.Name.ToUpper());
+            bool categoryAlreadyExists = repo.All<Category>()
+                .Any(c => c.Name.ToUpper() == categoryModel.Name.ToUpper());
 
             if (categoryAlreadyExists)
             {

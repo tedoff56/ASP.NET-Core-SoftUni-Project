@@ -13,13 +13,6 @@ namespace LightBulbsStore.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            var emailServerConfig = new EmailServerConfiguration
-            {
-                SmtpServer = "smtp.gmail.com",
-                SmtpUsername = "krushki.com.contacts@gmail.com",
-                SmtpPassword = "3&7FkML#n$n$chHD",
-            };
-
 
             services.AddTransient<IBulbsStoreDbRepository, BulbsStoreDbRepository>();
             services.AddTransient<IProductService, ProductService>();
@@ -29,7 +22,6 @@ namespace LightBulbsStore.Extensions
             services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<TextShortenerService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton(emailServerConfig);
             services.AddTransient<IEmailService, MailKitEmailService>();
 
             return services;

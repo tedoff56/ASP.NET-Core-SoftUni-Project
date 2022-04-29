@@ -42,19 +42,19 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Contacts(ContactFormViewModel model)
+    public async Task<IActionResult> Contacts(ContactFormViewModel model)
     {
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var toAddress = new EmailAddress()
-        {
-            Address = "krushki.com.contacts@gmail.com",
-        };
+        //var toAddress = new EmailAddress()
+        //{
+        //    Address = "krushki.com.contacts@gmail.com",
+        //};
 
-        toAddress.Name = toAddress.Address.Split('@')[0];
+        //toAddress.Name = toAddress.Address.Split('@')[0];
 
         var message = new EmailMessage
         {
@@ -63,12 +63,11 @@ public class HomeController : Controller
                 Address = model.Email,
                 Name = model.Email.Split('@')[0]
             }},
-            ToAddresses = new List<EmailAddress> { toAddress },
             Content = model.Message,
             Subject = model.Subject
         };
 
-        emailService.Send(message);
+        await emailService.SendEmailAsync(message);
 
         return RedirectToAction(nameof(Index));
     }
